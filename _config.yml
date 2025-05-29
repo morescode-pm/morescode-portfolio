@@ -49,6 +49,7 @@ include:
 #
 exclude:
   - docs_backup/*
+  - README.md
 #   - .sass-cache/
 #   - .jekyll-cache/
 #   - gemfiles/
