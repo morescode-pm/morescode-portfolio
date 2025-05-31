@@ -16,6 +16,8 @@ permalink: /about/
 
       Which means I'm experienced in designing scalable data pipelines and transforming insights into product and business innovation.<br><br>
 
+      If you have a data question that can be answered in under 5 minutes, I'll provide a free expert response.<br><br>
+
       Let's talk!<br>
       Paul
     </td>
