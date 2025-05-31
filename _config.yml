@@ -8,8 +8,6 @@ author:
 description: |
   Full-service data science, analytics, and statistical consulting.
 
-  Get clear, actionable insights from your data -> fast.
-  If your question can be answered in under 5 minutes, you'll receive a free, expert response!
 destination: docs
 
 
@@ -18,7 +16,7 @@ minima:
   skin: solarized
   nav_pages:
     - about.md
-    - projects.md
+
   show_excerpts: true
   social_links:
     - title: GitHub
