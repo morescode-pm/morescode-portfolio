@@ -1,5 +1,11 @@
 ---
 layout: page
 title: Projects
-permalink: /projects/
+permalink: /portfolio/
 ---
+
+
+Project 1
+
+
+Project 2

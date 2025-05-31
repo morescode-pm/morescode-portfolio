@@ -6,18 +6,20 @@ author:
   name: Paul Moresco
   email: hello@morescode-analytics.com
 description: |
-  Full service data science, analytics, and statistical consulting.  
-  FREE 5 minute answers!
+  Full-service data science, analytics, and statistical consulting.
+
+  Get clear, actionable insights from your data -> fast.
+  If your question can be answered in under 5 minutes, you'll receive a free, expert response!
 destination: docs
 
-remote_theme: jekyll/minima@8106bd4
 
+remote_theme: jekyll/minima@8106bd4
 minima:
   skin: solarized
   nav_pages:
     - about.md
     - projects.md
-  show_excertps: true
+  show_excerpts: true
   social_links:
     - title: GitHub
       icon: github
@@ -25,12 +27,19 @@ minima:
     - title: Linkedin
       icon: linkedin
       url: "www.linkedin.com/in/paul-moresco"
+    - title: Kaggle
+      icon: kaggle
+      url: "https://www.kaggle.com/morescope/"
   hide_site_feed_link: true
 
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-remote_theme
+
+paginate: 3
+paginate_path: "/page/:num"
+future: true
 
 
 exclude:
