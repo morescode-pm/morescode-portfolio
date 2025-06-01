@@ -40,6 +40,3 @@ gem "kramdown-parser-gfm"
 # do not have a Java counterpart.
 gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
 
-
-# to install jupyter notebook support into jekyll as embeds
-gem "jekyll-jupyter-notebook"
