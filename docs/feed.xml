@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-05-31T18:45:10-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">MORESCODE ANALYTICS LLC</title><subtitle>Full-service data science, analytics, and statistical consulting.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-05-31T19:21:10-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">MORESCODE ANALYTICS LLC</title><subtitle>Full-service data science, analytics, and statistical consulting.
 </subtitle><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><entry><title type="html">Converting from HTML was a project</title><link href="http://localhost:4000/2025/05/30/starting-from-scratch.html" rel="alternate" type="text/html" title="Converting from HTML was a project" /><published>2025-05-30T00:00:00-05:00</published><updated>2025-05-30T00:00:00-05:00</updated><id>http://localhost:4000/2025/05/30/starting-from-scratch</id><content type="html" xml:base="http://localhost:4000/2025/05/30/starting-from-scratch.html"><![CDATA[<p>Wow, making a website in Jekyll is great, but it definitely has a learning curve.<br />
 Even after purchasing a domain, figuring out the DNS records for github, and getting an HTML page initially stood up there was still a lot to learn.</p>
 
@@ -38,12 +38,12 @@ What you get for all the effort:</p>
       <li><code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code></li>
     </ul>
   </li>
-  <li>
-    <p>Ultimately, the knowledge of how to do this again in the future and a fast way to add new projects.</p>
+  <li>Ultimately, the knowledge of how to do this again in the future and a fast way to add new projects.</li>
+</ul>
 
-  </li>
-</ul>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="gettingstarted" /><summary type="html"><![CDATA[Wow, making a website in Jekyll is great, but it definitely has a learning curve. Even after purchasing a domain, figuring out the DNS records for github, and getting an HTML page initially stood up there was still a lot to learn.]]></summary></entry><entry><title type="html">Learning PowerBI</title><link href="http://localhost:4000/2025/05/25/learning-powerbi.html" rel="alternate" type="text/html" title="Learning PowerBI" /><published>2025-05-25T00:00:00-05:00</published><updated>2025-05-25T00:00:00-05:00</updated><id>http://localhost:4000/2025/05/25/learning-powerbi</id><content type="html" xml:base="http://localhost:4000/2025/05/25/learning-powerbi.html"><![CDATA[<h2>Plant Co. Performance Dashboard</h2>
-<p>An example dataset from a fake company that sells real plants.</p>
+<p><br />
+Here’s a <a href="https://github.com/morescode-pm/portfolio/tree/gh-jekyll">link to the repo</a> where the project is stored.</p>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="jekyll" /><category term="ruby" /><category term="html" /><summary type="html"><![CDATA[Wow, making a website in Jekyll is great, but it definitely has a learning curve. Even after purchasing a domain, figuring out the DNS records for github, and getting an HTML page initially stood up there was still a lot to learn.]]></summary></entry><entry><title type="html">Learning PowerBI</title><link href="http://localhost:4000/2025/05/25/learning-powerbi.html" rel="alternate" type="text/html" title="Learning PowerBI" /><published>2025-05-25T00:00:00-05:00</published><updated>2025-05-25T00:00:00-05:00</updated><id>http://localhost:4000/2025/05/25/learning-powerbi</id><content type="html" xml:base="http://localhost:4000/2025/05/25/learning-powerbi.html"><![CDATA[<p>Plant Co. Performance Dashboard.<br />
+An example dataset from a fake company that sells real plants.</p>
 
 <p>Data sources:<br />
 Power Query:<br />
@@ -52,4 +52,16 @@ Slicers:<br />
 Visualizations:</p>
 
 <iframe title="Plant Co Performance Report" width="700" height="450" src="https://app.powerbi.com/view?r=eyJrIjoiOWJmMTRmMjgtNWNiNC00ODkxLWJjMTItMDEyYjc0YzNlOTRlIiwidCI6ImQxMjE2YWM4LWFiOGQtNDg0ZC1hOTg2LTlmMGRmMmMxMjBmMCIsImMiOjJ9&amp;pageName=2195c7825b6c3b144e2f" frameborder="0" allowfullscreen="true">
-</iframe>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="powerbi" /><summary type="html"><![CDATA[Plant Co. Performance Dashboard An example dataset from a fake company that sells real plants.]]></summary></entry></feed>
+</iframe>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="powerbi" /><summary type="html"><![CDATA[Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants.]]></summary></entry><entry><title type="html">Analyzing Camera Trap Pictures with AI</title><link href="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html" rel="alternate" type="text/html" title="Analyzing Camera Trap Pictures with AI" /><published>2025-05-22T00:00:00-05:00</published><updated>2025-05-22T00:00:00-05:00</updated><id>http://localhost:4000/2025/05/22/camera-trap-computer-vision</id><content type="html" xml:base="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html"><![CDATA[<p>Using SpeciesNet (AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).</p>
+
+<p><a href="https://morescode-pm.github.io/urbanrivers-speciesnet-preview/">Urban Rivers - CamTrap AI Observations</a></p>
+
+<p>SpeciesNet was described by Gadot et al.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup></p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Gadot, T., Istrate, Ș., Kim, H., Morris, D., Beery, S., Birch, T., &amp; Ahumada, J. (2024). <em>To crop or not to crop: Comparing whole-image and cropped classification on a large dataset of camera trap images.</em> IET Computer Vision. Wiley Online Library. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="deeplearning" /><category term="computervision" /><category term="conservation" /><summary type="html"><![CDATA[Using SpeciesNet (AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).]]></summary></entry></feed>

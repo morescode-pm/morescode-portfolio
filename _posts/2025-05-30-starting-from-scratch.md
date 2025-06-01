@@ -1,6 +1,6 @@
 ---
 layout: post
-tags: [gettingstarted]
+tags: [jekyll, ruby, html]
 title: Converting from HTML was a project
 ---
 
@@ -29,9 +29,13 @@ What you get for all the effort:
  - Examples from other users that you can use to improve your own site.
  - An easy and auto-reloading localhost:4000 testing environment
     - `bundle exec jekyll serve`
- - Ultimately, the knowledge of how to do this again in the future and a fast way to add new projects.
+ - Ultimately, the knowledge of how to do this again in the future and a fast way to add new projects.  
+
+<br>
+Here's a [link to the repo][3] where the project is stored.
 
 
 
-    [1]: https://rubyinstaller.org/downloads/
-    [2]: https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll
+[1]: https://rubyinstaller.org/downloads/
+[2]: https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll
+[3]: https://github.com/morescode-pm/portfolio/tree/gh-jekyll

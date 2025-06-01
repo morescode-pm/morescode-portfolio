@@ -4,7 +4,7 @@ tags: [powerbi]
 title: Learning PowerBI
 ---
 
-<h2>Plant Co. Performance Dashboard</h2>
+Plant Co. Performance Dashboard.  
 An example dataset from a fake company that sells real plants.  
 
 Data sources:  

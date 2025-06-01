@@ -16,6 +16,7 @@ minima:
   skin: solarized
   nav_pages:
     - about.md
+    - portfolio.md
 
   show_excerpts: true
   social_links:
