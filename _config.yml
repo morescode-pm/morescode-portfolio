@@ -14,7 +14,7 @@ destination: docs
 
 remote_theme: jekyll/minima@8106bd4
 minima:
-  skin: solarized
+  skin: auto
   nav_pages:
     - about.md
     - portfolio.md

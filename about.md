@@ -7,9 +7,9 @@ permalink: /about/
 
 Hi, I'm Paul.  
 
-I'm a Food and Data Scientist with deep expertise in statistical analysis, experimentation, and data-driven decision-making. I have a proven track record of leading cross-functional teams and building scalable data solutions in the biotech and food industries.  
+I'm a Food and Data Scientist who loves turning messy data into useful answers. I’ve spent years working in biotech and food, running experiments, crunching numbers, and helping teams make sense of what’s really going on. I enjoy building tools and processes that make data work for people, not the other way around.  
 
-Which means I'm experienced in designing scalable data pipelines and transforming insights into product and business innovation.  
+I’m happiest when I’m solving real problems. Whether that’s figuring out how to peel a potato without steam, designing a better experiment, or just making a dashboard that actually helps someone do their job. I believe good analytics should be clear, practical, and a little bit fun.  
 
 If you have a data question that can be answered in under 5 minutes, I'll provide a free expert response.  
 
