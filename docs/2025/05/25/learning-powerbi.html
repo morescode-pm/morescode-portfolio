@@ -8,8 +8,8 @@
 <meta property="og:title" content="Learning PowerBI" />
 <meta name="author" content="Paul Moresco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants." />
-<meta property="og:description" content="Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants." />
+<meta name="description" content="Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants. The dashboard is interactive, so please click through to satisfy your curiosity (tip: the embedded dashboard can be resized to fit your full screen in the lower right corner)." />
+<meta property="og:description" content="Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants. The dashboard is interactive, so please click through to satisfy your curiosity (tip: the embedded dashboard can be resized to fit your full screen in the lower right corner)." />
 <link rel="canonical" href="http://localhost:4000/2025/05/25/learning-powerbi.html" />
 <meta property="og:url" content="http://localhost:4000/2025/05/25/learning-powerbi.html" />
 <meta property="og:site_name" content="MORESCODE ANALYTICS LLC" />
@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Learning PowerBI" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Paul Moresco"},"dateModified":"2025-05-25T00:00:00-05:00","datePublished":"2025-05-25T00:00:00-05:00","description":"Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants.","headline":"Learning PowerBI","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2025/05/25/learning-powerbi.html"},"url":"http://localhost:4000/2025/05/25/learning-powerbi.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Paul Moresco"},"dateModified":"2025-05-25T00:00:00-05:00","datePublished":"2025-05-25T00:00:00-05:00","description":"Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants. The dashboard is interactive, so please click through to satisfy your curiosity (tip: the embedded dashboard can be resized to fit your full screen in the lower right corner).","headline":"Learning PowerBI","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2025/05/25/learning-powerbi.html"},"url":"http://localhost:4000/2025/05/25/learning-powerbi.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link id="main-stylesheet" rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="MORESCODE ANALYTICS LLC" />
 </head>
@@ -45,16 +45,194 @@
 
   <div class="post-content">
     <p>Plant Co. Performance Dashboard.<br />
-An example dataset from a fake company that sells real plants.</p>
+An example dataset from a fake company that sells real plants.<br />
+The dashboard is interactive, so please click through to satisfy your curiosity (tip: the embedded dashboard can be resized to fit your full screen in the lower right corner).</p>
 
-<p>Data sources:<br />
-Power Query:<br />
-DAX:<br />
-Slicers:<br />
-Visualizations:</p>
-
-<iframe title="Plant Co Performance Report" width="700" height="450" src="https://app.powerbi.com/view?r=eyJrIjoiOWJmMTRmMjgtNWNiNC00ODkxLWJjMTItMDEyYjc0YzNlOTRlIiwidCI6ImQxMjE2YWM4LWFiOGQtNDg0ZC1hOTg2LTlmMGRmMmMxMjBmMCIsImMiOjJ9&amp;pageName=2195c7825b6c3b144e2f" frameborder="0" allowfullscreen="true">
+<iframe title="Plant Co Performance Report" width="788" height="505" src="https://app.powerbi.com/view?r=eyJrIjoiOWJmMTRmMjgtNWNiNC00ODkxLWJjMTItMDEyYjc0YzNlOTRlIiwidCI6ImQxMjE2YWM4LWFiOGQtNDg0ZC1hOTg2LTlmMGRmMmMxMjBmMCIsImMiOjJ9&amp;pageName=2195c7825b6c3b144e2f" frameborder="0" allowfullscreen="true">
 </iframe>
+
+<p><br /></p>
+
+<p><em>Example Analysis:</em></p>
+<h2 style="margin-top: 0"> October '23 year to date was less profitable than '22 by $0.15M:</h2>
+<p>Focusing on the Gross Profit Year to Date (YTD) vs Prior Year to Date (PYTD) Waterfall Chart for 2023.<br />
+It looks like October was our worst performing month relative to last year - we want to know why so we can make decisions to increase profitability next year.</p>
+
+<p>First, hover over and then click on the “Click to turn on Drill down” arrow (1). Then click on the red bar for October (2).<br />
+<img src="/assets/images/learning-powerbi/1_DrillDown.png" /></p>
+
+<p>This waterfall chart has drill down information about country and product - when clicking on October, the first layer of detail shows us a list of all countries and their relative gross profit between 2023 and 2022. Here we can see 79k of the $148.41k less profit in 2023 came from accounts in China. This is reflected across all visuals in the dashboard and hovering over points/bars will show you more information.
+<img src="/assets/images/learning-powerbi/2_Countries.png" /></p>
+
+<p>Drilling further down by clicking on china we get a grouping by product category: Indoor, Landscape, and Outdoor.<br />
+It looks like in 2023 we made less money on Outdoor and Landscape products than in 2022 but are making small improvements on Indoor products profits. Remember, at this point we are drilled down on “Gross Profit YTD (2023) vs PYTD (2022) for October 2023, from China.”
+<img src="/assets/images/learning-powerbi/3_ProductGroup.png" /></p>
+
+<p>Focusing in further on Outdoor we can get an idea of which specific plants are experiencing lower gross profits in 2023. For example, 4 of these products had $9-10k less gross profits in 2023 than 2022 - something definitely worth looking into more. (and we would repeat this for Landscape).
+<img src="/assets/images/learning-powerbi/4_Products.png" /></p>
+
+<p>To get a final list of the products we can just request a table view by right clicking on the graph. Tip: Use portrait or landscape view to  (because, yeah, reading long names from angled bar titles isn’t great) 
+<img src="/assets/images/learning-powerbi/5_Tabled.png" /></p>
+
+<p>Remember - this does not mean the products <em>LOST</em> money, it just means relative to last year they made less. So, maybe the products are falling out of favor in china, or maybe in 2022 there was an issue with these. It could also mean that the products are more perrenial, and in 2022 companies bought all the needed. So, when thinking about the next year we could update the catalog to offer products that are in more demand and produce less of the products out of demand for the chinese market.<br />
+We could also look deeper at the account profitability segments, and try to advertize to the accounts related that are low value YTD, but high GP% (bottom right figure of the dashboard).</p>
+
+<p><br /></p>
+
+<p><em>How this was made:</em></p>
+<h2 style="margin-top: 0"> Project Introduction and Data Cleaning </h2>
+<p>This project was created following Mo Chen’s Power BI <a href="https://www.youtube.com/watch?v=BLxW9ZSuuVI&amp;t=92s">Tutorial</a>.<br />
+The goal was to create a performance reporting dashboard for a company that would dynamically interact with user input. This type of tool is invaluable to businesses looking to better understand their sales and strategize for the future.</p>
+
+<p>The Steps involved were:</p>
+<ol>
+  <li>Data gathering (power query, virtual tables)</li>
+  <li>Modeling - Measures, calculated columns</li>
+  <li>Visuals - Layout and Design</li>
+  <li>Review and Publishing</li>
+</ol>
+
+<h3 id="data-sources"><em>Data sources:</em></h3>
+<ul>
+  <li>Excel Workbook with 3 Sheets:
+    <ol>
+      <li>Plant FACT (date, product id, quantity, price, cogs, account id)</li>
+      <li>Accounts (account id, country, master id, lat/lon, postal code, street name)</li>
+      <li>Plant_Hierarchy (product family, group, name, size, type)</li>
+    </ol>
+  </li>
+</ul>
+
+<p><em>Power Query:</em></p>
+<ul>
+  <li>Data was imported into Power Query for Transformation.</li>
+  <li>Column names were cleaned and deduplication was run on any primary keys.</li>
+  <li>Table names were cleaned and identified as FACT or DIM tables</li>
+</ul>
+
+<h3 id="data-model"><em>Data Model:</em></h3>
+<ul>
+  <li>New Table for Dates - This will be a major way we slice the data for analysis. Includes Date Hierarchies!
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  DIM_Date =  
+  CALENDAR(  
+      DATE(2022,01,01),  
+      DATE(2024,12,31)  
+  )
+</code></pre></div>    </div>
+  </li>
+  <li>A boolean to check if the FACT_Sales row is before or after the sliced date (will be true for PYTD)
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  inPast = 
+  VAR lastsalesdate = MAX(FACT_Sales[Date_Time]) # Finds the most recent sales date in FACT_Sales
+  VAR lastsalesdatePY = EDATE(lastsalesdate, -12) # Calculates same date 12 months earlier
+  RETURN
+  DIM_Date[Date]&lt;=lastsalesdatePY # TRUE for any date in DIM_Date that is before latest sales date from prior year
+</code></pre></div>    </div>
+  </li>
+  <li>Slicers:<br />
+  Table of Slicer Values as “Enter Data” Type<br />
+  “Sales”, “Gross Profit”, “Quantity</li>
+  <li>Joins
+    <ul>
+      <li>FACT_Sales.Account_id = DIM_Account.Account_id</li>
+      <li>FACT_Sales.Product_id = DIM_Product.Product_Name_id</li>
+      <li>FACT_Sales.Date_Time = DIM_Date.Date</li>
+    </ul>
+  </li>
+</ul>
+
+<p><em>DAX Measures:</em> (always applies to the interval/date selected)<br />
+<code class="language-plaintext highlighter-rouge">COGs = SUM(FACT_Sales[COGS_USD])</code>  # Cost of goods sold summed<br />
+<code class="language-plaintext highlighter-rouge">Quantity = SUM(FACT_Sales[quantity])</code> # Quantity of units sold<br />
+<code class="language-plaintext highlighter-rouge">Sales = SUM(FACT_Sales[Sales_USD])</code> # Sales amount<br />
+<code class="language-plaintext highlighter-rouge">Gross Profit = [Sales] - [COGs]</code> # How much is made before EBITDA</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- PYTD_GrossProfit =
+  CALCULATE( # shifts filter context to the same period in the last year (ex oct 22 if looking at oct 23)
+    [Gross Profit],
+    SAMEPERIODLASTYEAR(DIM_Date[Date]),
+    DIM_Date[inPast] = TRUE
+  )
+- PYTD_Quantity = 
+  CALCULATE(
+    [Quantity],
+    SAMEPERIODLASTYEAR(DIM_Date[Date]),
+    DIM_Date[inPast] = TRUE
+  )
+- PYTD_Sales = 
+  CALCULATE(
+    [Sales],
+    SAMEPERIODLASTYEAR(DIM_Date[Date]),
+    DIM_Date[inPast] = TRUE
+  )
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- YTD_GrossProfit = 
+  TOTALYTD( # Sums the gross profit from the start of the year to the current context
+    [Gross Profit],
+    FACT_Sales[Date_Time]
+  )
+- YTD_Quantity = 
+  TOTALYTD(
+    [Quantity],
+    FACT_Sales[Date_Time]
+  )
+- YTD_Sales = 
+  TOTALYTD(
+    [Sales],
+    FACT_Sales[Date_Time]
+  )
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- S_PYTD = 
+  VAR selected_value = SELECTEDVALUE(SLC_Values[Values])
+  VAR result = 
+  SWITCH(
+      selected_value,
+      "Sales", [PYTD_Sales],
+      "Quantity", [PYTD_Quantity],
+      "Gross Profit", [PYTD_GrossProfit],
+      BLANK()
+  )
+  RETURN result
+
+- S_YTD = 
+  VAR selected_value = SELECTEDVALUE(SLC_Values[Values])
+  VAR result = 
+  SWITCH(
+      selected_value,
+      "Sales", [YTD_Sales],
+      "Quantity", [YTD_Quantity],
+      "Gross Profit", [YTD_GrossProfit],
+      BLANK()
+  )
+  RETURN result
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- YTD vs PYTD = [S_YTD] - [S_PYTD]
+</code></pre></div></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- GP% = DIVIDE(
+    [Gross Profit],
+    [Sales]
+)
+</code></pre></div></div>
+
+<h3 id="visualizations"><em>Visualizations:</em></h3>
+<ul>
+  <li>Treemap chart - Month and Country by YTD vs PTYD</li>
+  <li>Waterfall chart - Month, Country, Type, Name by YTD vs PYTD</li>
+  <li>Line and Stacked Column chart - Quarter/Month by Value YTD (col) and Value PTYD (line) by Type</li>
+  <li>Scatter chart - Value YTD vs GP% by Account - with segmentation through average lines</li>
+</ul>
+
+<h3 id="layout-and-final-touches"><em>Layout and Final Touches:</em></h3>
+<ul>
+  <li>Sort Measures by YTD or PYTD</li>
+  <li>Organize Measure Switches Folder</li>
+  <li>Build a background in powerpoint and use it as a PowerBI background image.</li>
+  <li>Transparent backgrounds, rounded corners, conditional formatting</li>
+  <li>Final fixes on titles and dynamic titles (uses <code class="language-plaintext highlighter-rouge">SELECTEDVALUE(SLC_Values[Values])</code>)
+  _Column Title
+  _Report Title
+  _Scatter Title
+  _Waterfall Title</li>
+</ul>
+
 
   </div>
 </div>
