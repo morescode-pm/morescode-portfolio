@@ -6,7 +6,8 @@ title: Analyzing Camera Trap Pictures with AI
 
 <p>Using SpeciesNet (AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).</p>
 
-<a href="https://morescode-pm.github.io/urbanrivers-speciesnet-preview/">Urban Rivers - CamTrap AI Observations</a>
+Preview page created using Megadetector dev-tools on a subset of predictions.  
+<a href="https://morescode-pm.github.io/urbanrivers-speciesnet-preview/">Urban Rivers - CamTrap AI Observations</a>  
 
 
 SpeciesNet was described by Gadot et al.[^1]
