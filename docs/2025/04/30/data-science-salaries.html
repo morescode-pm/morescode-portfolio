@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Data Science Salaries | MORESCODE ANALYTICS LLC</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Data Science Salaries" />
+<meta name="author" content="Paul Moresco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Finding myself in an unscheduled sabatical / job search I decided to upskill in Looker while reviewing Data Science Salaries in Chicago." />
+<meta property="og:description" content="Finding myself in an unscheduled sabatical / job search I decided to upskill in Looker while reviewing Data Science Salaries in Chicago." />
+<link rel="canonical" href="http://localhost:4000/2025/04/30/data-science-salaries.html" />
+<meta property="og:url" content="http://localhost:4000/2025/04/30/data-science-salaries.html" />
+<meta property="og:site_name" content="MORESCODE ANALYTICS LLC" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-04-30T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Data Science Salaries" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Paul Moresco"},"dateModified":"2025-04-30T00:00:00-05:00","datePublished":"2025-04-30T00:00:00-05:00","description":"Finding myself in an unscheduled sabatical / job search I decided to upskill in Looker while reviewing Data Science Salaries in Chicago.","headline":"Data Science Salaries","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2025/04/30/data-science-salaries.html"},"url":"http://localhost:4000/2025/04/30/data-science-salaries.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link id="main-stylesheet" rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="MORESCODE ANALYTICS LLC" />
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">MORESCODE ANALYTICS LLC</a>
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon"></span>
+        </label>
+
+        <div class="nav-items">
+  <a class="nav-item" href="/about/">About</a>
+  <a class="nav-item" href="/portfolio.html">Portfolio</a>
+</div>
+      </nav>
+  </div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="post"><h1 class="page-heading" style="text-align: center;">Data Science Salaries</h1><div class="post-meta" style="text-align: center; color: #666; margin-bottom: 1.5em;">
+    Apr 30, 2025&nbsp;-&nbsp;<span class="post-tag" style="color: teal">#jobs</a>, <span class="post-tag" style="color: teal">#looker</a>, <span class="post-tag" style="color: teal">#dax</a></div>
+
+  <div class="post-content">
+    <p>Finding myself in an unscheduled sabatical / job search I decided to upskill in Looker while reviewing Data Science Salaries in Chicago.</p>
+
+<p>When asked really early, it’s easy to point to this and ask for a range within the 25pct to 75pct band of the listed salary or industry salaries.</p>
+
+<p>Here’s the final dashboard:</p>
+
+<iframe width="788" height="505" src="https://lookerstudio.google.com/embed/reporting/ab71852c-1d0d-4cb2-8146-0c20aff7b331/page/page_12345" frameborder="0" style="border:0" allowfullscreen="" sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+
+<h2 id="how-it-was-made">How it was made</h2>
+<p>First I built a structured table in google sheets for each job I was interested and applied for.<br />
+This included:<br />
+job title, company, location, pay, listed_years_experience, connections, and key_skills_listed</p>
+
+<p><img src="/assets/images/salaries/1_table.png" /></p>
+
+<p>I then parsed that information just a little further by cleaning the pay ranges into minimum and maximum values. <code class="language-plaintext highlighter-rouge">=SPLIT(pay, "-")</code></p>
+
+<p>Looker studio is a free version of Looker that has direct access to google sheets data and is accessible via the extensions menu.</p>
+
+<p><img src="/assets/images/salaries/2_looker_connect.png" /></p>
+
+<p>This forges a direct connection to the google sheets page &amp; allows you to just “refresh” your looker visual when new rows are added to the table. Pretty nice for being totally free.</p>
+
+<p>All we needed here was a simple visual to display the salary ranges.<br />
+To get a sense of their relative bands, I went with a box plot chart for the quartiles in each listed salary range.<br />
+<br />
+This required some fiddling with the settings but I eventually found that I could create some calculated fields and use the box plot chart. Since the data I’m using are just 1 row per salary, I needed to use a bit of DAX to generate my metrics.</p>
+
+<p>For each 25 pctile: <code class="language-plaintext highlighter-rouge">((High Salary-Low Salary)*&lt;pctile&gt;)+Low Salary</code><br />
+Then, the dimensions for drilling down I had were <code class="language-plaintext highlighter-rouge">sector</code> (A field I inferred from the title manually in the google sheet) and <code class="language-plaintext highlighter-rouge">Company, Title</code> another DAX field just doing: <code class="language-plaintext highlighter-rouge">CONCAT(Company,", ",Title)</code>.</p>
+
+<p>Here’s what the final setup looked like:<br />
+<img src="/assets/images/salaries/3_setup.png" /></p>
+
+<p>Next we added some <strong>Style</strong> by adding reference lines and bands for the full visual.  Meaning each salary belongs to the set of salaries, and we can add a band for the average 25pct and 75pct (the interquartile range or IQR) for the entire dataset.  This plus my last base salary as a parameter added some context to the visual.</p>
+
+<p>What I like most about the finished product is the ability to quickly see a breakdown for the full dataset as well as for each industry that I labeled. Here’s that drilled up view.</p>
+
+<p><img src="/assets/images/salaries/4_drillup.png" /></p>
+
+<p>In the visual we can see how tech salaries are generally higher, and food and public sectors are lower. Part of the reason for this is the bias I have on jobs that look interesting, but I think the trend would hold relatively well.</p>
+
+  </div>
+</div>
+      </div>
+    </main><link id="fa-stylesheet" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+
+<footer class="site-footer h-card">
+  <data class="u-url" value="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-row" style="text-align: center;"><div class="footer-author" style="margin-bottom: 8px;">
+          <span class="p-name">&copy; 2025 Paul Moresco </span>&nbsp;|&nbsp;
+            <a class="u-email" href="mailto:hello@morescode-analytics.com">hello@morescode-analytics.com</a></div><div class="social-links"><ul class="social-media-list"><li>
+    <a rel="me" href="https://github.com/morescode-pm" target="_blank" title="GitHub">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li><li>
+    <a rel="me" href="https://www.linkedin.com/in/paul-moresco" target="_blank" title="Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li><li>
+    <a rel="me" href="https://www.kaggle.com/morescope/" target="_blank" title="Kaggle">
+      <span class="grey fa-brands fa-kaggle fa-lg"></span>
+    </a>
+  </li><li>
+    <a rel="me" href="https://public.tableau.com/app/profile/paul.moresco/vizzes" target="_blank" title="Tableau Public">
+      <span class="grey fa-brands fa-salesforce fa-lg"></span>
+    </a>
+  </li>
+</ul></div>
+    </div>
+  </div>
+</footer></body>
+
+</html>
