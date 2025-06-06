@@ -41,7 +41,7 @@
 </header><main class="page-content" aria-label="Content">
       <div class="wrapper">
         <div class="post"><h1 class="page-heading" style="text-align: center;">Catch A Vibe Code</h1><div class="post-meta" style="text-align: center; color: #666; margin-bottom: 1.5em;">
-    Jun 3, 2025&nbsp;-&nbsp;<span class="post-tag" style="color: teal">#ai</a>, <span class="post-tag" style="color: teal">#html</a>, <span class="post-tag" style="color: teal">#node</a>, <span class="post-tag" style="color: teal">#cursor</a>, <span class="post-tag" style="color: teal">#lovable</a>, <span class="post-tag" style="color: teal">#copilot</a></div>
+    Jun 3, 2025&nbsp;-&nbsp;<span class="post-tag" style="color: teal">#ai</a>, <span class="post-tag" style="color: teal">#html</a>, <span class="post-tag" style="color: teal">#next.js</a>, <span class="post-tag" style="color: teal">#css</a>, <span class="post-tag" style="color: teal">#copilot</a></div>
 
   <div class="post-content">
     <p>I joined an ai for conservation slack group recently. In that group, one of the developers of SpeciesNet (<a href="/2025/05/22/camera-trap-computer-vision.html">camera trap computer vision</a>) and the creator of the MegaDetector object detection model, <a href="https://github.com/agentmorris">Dan Morris</a>, hosted a “Vibe coding party” this week.</p>
@@ -54,19 +54,79 @@
 
 <p>So, this week I spent some time at the Vibe coding party and afterwards trying to see if AI could help me quickly contribute features to the website that Urban Rivers uses to have volunteers help label camera trap images – and then for fun, trying to make GAMES!</p>
 
-<h2 id="using-jules-on-a-massive-code-base-for-urban-rivers-ranger-website">Using Jules on a massive code base for Urban Rivers ranger website.</h2>
-<p>The wildmile codebase is &gt; 10k lines of code - written in Next.js with MongoDB integrations. Between Frontend, Backend, Models, Actions, Utils, and Tests, and having not previously contributed to the project or spent any real time learning the languages - I’ve hit several barriers to being able to contribute.</p>
+<h2 id="using-jules-on-a-massive-code-base-for-urban-rivers-ranger-website">Using <a href="https://jules.google.com/">Jules</a> on a massive code base for Urban Rivers <a href="https://rangers.urbanrivers.org/">ranger website</a>.</h2>
+<p>The wildmile codebase is &gt;45k lines of code - written in Next.js with MongoDB integrations. Between Frontend, Backend, Models, Actions, Utils, and Tests, and having not previously contributed to the project or spent any real time learning the languages - I’ve hit several barriers to being able to contribute.</p>
 
-<p>We’ve wanted to expand our rewards and recognition systems to motivate people who are able to contribute daily or weekly - more than just once.</p>
+<p>We’ve wanted to expand our rewards and recognition systems to motivate people who are able to contribute daily or weekly - more than just once.  There’s already a system to add badges - which as an admin I’ve been able to add to. For example, Here’s one you get after labeling 9000! images along with 700 points - generated using chatGPT image mode:</p>
 
-<p>https://github.com/nkwsy/Wildmile/pull/269</p>
+<p><img src="/assets/images/ai-part-one/1_exbadge.png" width="200" /></p>
+
+<p>I have this idea that by logging in weekly, people will be ‘taking care of the river.’  Conceptually, we can create a ‘tomagachi-pal-like’ image of the river, and each week the picture shared gets prettier, until it looks like a very nice, boardwalk lined, wetlands environment.  This then could be picked up as a sticker from Urban Rivers - or mailed - or awarded at a social.</p>
+
+<p>The existing system was struggling with login cookies so we decided to change it to an “actions” based system - where any valid action (labeling observations) within a day is considered an active day and can increase the streak.</p>
+
+<p>Here’s what I prompted Jules with:</p>
+<blockquote>
+  <p>we have a series of cards that display the user progress and update the streak ex:</p>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UserProgressSchema.methods.updateStreak = function () { const today = new Date(); const lastLogin &gt;= this.streaks.lastLoginDate;
+
+if (!lastLogin) { this.streaks.current = 1; } else { const daysSinceLastLogin = Math.floor( (today &gt;- lastLogin) / (1000 * 60 * 60 * 24) );
+
+if (daysSinceLastLogin === 1) {
+ this.streaks.current += 1;
+ this.streaks.longest = Math.max(
+   this.streaks.current,
+   this.streaks.longest
+ );
+} else if (daysSinceLastLogin &gt; 1) {
+ this.streaks.current = 1;
+}
+}
+
+this.streaks.lastLoginDate = today; };
+</code></pre></div>  </div>
+  <p>Instead of using the login date, we want to create a function to update a parameter about the user based on their last action on our site - a valid action would be saving an observation. Please make suggestions on how to implement this</p>
+</blockquote>
+
+<p>From there, Jules read in the entire codebase (I provided credentials), built a plan to edit the function, edited the 3 very specific files needed to change the feature, and - in noticing our lack of tests - added steps on how to implement an entire testing ecosystem.</p>
+
+<p>Here’s a screengrab of where it shows the changes suggested:<br />
+<img src="/assets/images/ai-part-one/3_jules.png" /></p>
+
+<p>I pulled the branch into my local env to test out the changes and it loaded. Now, the test system didn’t work at all - but I do plan on getting jules to help with that again in the near future.</p>
+
+<p>As of today, Jules is using Google Gemini 2.5 Pro.</p>
+
+<p>See the <a href="https://github.com/nkwsy/Wildmile/pull/269">commit</a> here!</p>
 
 <h2 id="using-claude-sonnet-35-as-a-cli-agent-to-get-it-running">Using claude sonnet 3.5 as a CLI agent to get it running.</h2>
-<p>When I first tried to contribute</p>
+<p>When I first tried to run the website locally to see if my changes worked, I couldn’t get the system running at all. After several chat prompts with an AI - I did manage to get something running - only to realize that the wrong drive was being used and needing to start over.</p>
 
-<p>There was also a problem the first time I tried to submit the PR - my fork of the project was more than 170 commits behind the master branch! This was a gap in my own understanding - when I was merging with the master, I was merging with MY master, not the original. To fix this, all I had to do was hit the “refresh” button on my repo page</p>
+<p>There was also a problem the first time I tried to submit the PR - my fork of the project was more than 170 commits behind the master branch! This was a gap in my own understanding - when I was merging with the master, I was merging with MY master, not the original. To fix this, all I had to do was hit the “refresh” button on my repo page.</p>
 
-<h2 id="using-cursor-and-loveable-to-make-a-game-of-tag">Using cursor and loveable to make a game of tag.</h2>
+<p>After all of that - pulling the changes and syncing my main branch into my local server - I experimented with Claude Sonnet 3.5 in copilot within VSCode. The difference here being that the CLI version of the AI is able to see what my computer is (Windows) and how incompatibility issues with linux were causing the problems. It fixed things instantly.</p>
+
+<p><img src="/assets/images/ai-part-one/4_copilot_claude.png" /></p>
+
+<p>Given, this may have only taken a few google searches, but it’s something Jules was incapable of knowing - because Jules is entirely online on a VM.</p>
+
+<h2 id="using-copilot-and-claude-to-make-a-game-for-elephant-conservation">Using copilot and claude to make a game for elephant conservation.</h2>
+<p>In the last 30 minutes of the vibe coding party I suggested we all try to use AI to make a game - for fun &amp; to see how ‘one-shot’ prompting works these days (this was one of the ideas Dan had originally conceived for the party).  The premise for the game came from another conservation member - <a href="https://www.linkedin.com/in/prabath/">Prabath Gunawardane</a> - who was interested in creating a game that helped teach how elephant friendly deterrents could help prevent farm damage.</p>
+
+<p>Here was my <a href="https://github.com/morescode-pm/elephriend-zone/blob/main/development-chat-log.md">prompt and chat log</a> to claude:</p>
+<blockquote>
+  <p>I would like to make a game I can run in my local browser called “Elephriend Zone” - it’s a game where elephants will be drawn to farms nearby and could damage them - damaging the farms is a game over condition - the player can build elephant safe de-motivation items on the map - please look up some elephant friendly options for this. For art we can start with simple shapes. Pick any language that is known to be low bandwith and run on a slow computer.</p>
+</blockquote>
+
+<p>And here’s <a href="https://github.com/morescode-pm/elephriend-zone">the repo</a> &amp; screen shot of the..</p>
+<h3 id="elephriend-zone-game-you-can-actually-play"><strong><a href="https://morescode-pm.github.io/elephriend-zone/">Elephriend Zone</a> game you can actually play</strong>:</h3>
+
+<p><img src="/assets/images/ai-part-one/5_elephriends.png" /></p>
+
+<h2 id="in-summary">In Summary</h2>
+<p>The most incredible part of all of this was that I only had to (barely) review the code, and figure out testing/deployment strategies. When you think about the time it would take to learn new languages just to be able to make one small change (months). This is truly an amazing thing.</p>
+
+<!-- links  -->
 
 
   </div>
@@ -95,6 +155,17 @@
   </li><li>
     <a rel="me" href="https://public.tableau.com/app/profile/paul.moresco/vizzes" target="_blank" title="Tableau Public">
       <span class="grey fa-brands fa-salesforce fa-lg"></span>
+    </a>
+  </li>
+  <li>
+    <a href="http://localhost:4000/feed.xml" target="_blank" title="Subscribe to syndication feed">
+      <svg class="svg-icon grey" viewbox="0 0 16 16">
+        <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+          11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+          13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+          16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"
+        />
+      </svg>
     </a>
   </li>
 </ul></div>
