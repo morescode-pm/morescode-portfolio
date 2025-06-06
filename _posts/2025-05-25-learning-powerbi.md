@@ -1,6 +1,6 @@
 ---
 layout: post
-tags: [powerbi]
+tags: [powerbi, dax]
 title: Learning PowerBI
 ---
 
