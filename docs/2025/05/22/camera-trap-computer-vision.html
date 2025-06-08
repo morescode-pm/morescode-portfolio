@@ -46,8 +46,32 @@
   <div class="post-content">
     <p>Using SpeciesNet (AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).</p>
 
+<h3 id="skip-to-the-good-part">Skip to the good part:</h3>
 <p>Preview page created using Megadetector dev-tools on a subset of predictions.<br />
 <a href="https://morescode-pm.github.io/urbanrivers-speciesnet-preview/">Urban Rivers - CamTrap AI Observations</a></p>
+
+<h3 id="project-workflow">Project Workflow</h3>
+<ol>
+  <li>Process Images through SpeciesNet Automation</li>
+  <li>Associate inferences back to images via md5 hash - Data Cleaning</li>
+  <li>Explore Dataset - EDA</li>
+  <li>Plan for model fine-tuning &amp; next steps</li>
+</ol>
+
+<h3 id="notebook-for-processing-images-on-kaggle">Notebook for processing images on <a href="https://www.kaggle.com/code/morescope/urbanrivers-speciesnet-hash-clean-full-nogeo">Kaggle</a>:</h3>
+<iframe src="/assets/notebooks/html/ur-speciesnet-v2.html" width="100%" height="400" style="border:1px solid #ccc; border-radius:8px;"></iframe>
+<p>The notebook took 10 hours to run - 7 hours of which was just spent on downloading and resizing images. This is why I used batching and multi-threading for the images, but yet it still takes a while to go through 100k s3 links. Surely there’s a better way.</p>
+
+<h3 id="data-cleaning-and-eda">Data Cleaning and EDA</h3>
+
+<p>Better luck by resizing the images before inference.</p>
+
+<h3 id="next-steps">Next Steps</h3>
+<p>There are clearly some errors.</p>
+
+<p>Target Species list</p>
+
+<p>The errors improved after first resizing the images.</p>
 
 <p>SpeciesNet was described by Gadot et al.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup></p>
 
