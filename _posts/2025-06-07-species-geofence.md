@@ -21,6 +21,9 @@ The ability to draw on a map and be presented with a unique list of confirmed sp
 
 Cursor, Jules, and GitHub CoPilot created the majority of the code - we started in Flask and then I asked for a refactor for a full front end site for easy hosting (wow).
 
+The project repo and branch can be found on my [GitHub][4].  
+
+## Cleaning AI computer vision results based on polygon geofence occurrences
 This polygon was used to then submit a query to the GBIF dataset saved on Google BigQuery.  
 
 ```SQL
@@ -163,3 +166,4 @@ Note we didn't apply any geofencing to this run of speciesnet - so it's expected
 [1]: https://www.gbif.org/occurrence/search
 [2]: https://morescode-pm.github.io/geofence-polygon/
 [3]: https://github.com/morescode-pm/urbanrivers-speciesnet-preview/blob/store-and-combine-predicts/_speciesnet-taxa/species_mismatch_analysis.ipynb
+[4]: https://github.com/morescode-pm/geofence-polygon/tree/convert/only-frontend
