@@ -6,7 +6,7 @@ author:
   name: Paul Moresco
   email: hello@morescode-analytics.com
 description: |
-  Full-service data science, analytics, and statistical consulting.
+  Data science, analytics, and statistical consulting.
 
 url: "https://www.morescode-analytics.com"
 baseurl: ""  # Leave empty if deploying at the root domain

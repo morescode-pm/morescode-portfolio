@@ -1,6 +1,6 @@
 ---
 style: post
-tags: [deeplearning, computervision, pytorch]
+tags: [deeplearning, computervision, pytorch, ai]
 ---
 
 I decided to learn how to interact with computer vision models using the FastAI infrastructure.  
