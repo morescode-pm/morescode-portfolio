@@ -13,6 +13,8 @@ So, to help validate lists of species relevant to our area, I built a [webapp fo
 </a>
 
 ## A well known issue  
+I ran a test of google's species net and wrote about the [results here][5].
+
 Species geofencing is problematic. Animals don't seem to care where you draw lines on a map and they don't have "guest books" where they can sign their names. We rely on human observation to tell us if a species is found in an area or not.  
 
 Of all the public resources for these observations - the _Global Biodiversity Information Facility (GBIF)_ API has a great search query representation for polygons. This search is [baked into their tools][1], but I wanted to be able to filter the results for unique species instead of by occurence.  
@@ -167,3 +169,4 @@ Note we didn't apply any geofencing to this run of speciesnet - so it's expected
 [2]: https://morescode-pm.github.io/geofence-polygon/
 [3]: https://github.com/morescode-pm/urbanrivers-speciesnet-preview/blob/store-and-combine-predicts/_speciesnet-taxa/species_mismatch_analysis.ipynb
 [4]: https://github.com/morescode-pm/geofence-polygon/tree/convert/only-frontend
+[5]: {% post_url 2025-05-22-camera-trap-computer-vision %}  
