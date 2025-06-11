@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Building a Webapp for Species Geofencing | MORESCODE ANALYTICS LLC</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Building a Webapp for Species Geofencing" />
+<meta name="author" content="Paul Moresco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”" />
+<meta property="og:description" content="One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”" />
+<link rel="canonical" href="http://localhost:4000/2025/06/07/species-geofence.html" />
+<meta property="og:url" content="http://localhost:4000/2025/06/07/species-geofence.html" />
+<meta property="og:site_name" content="MORESCODE ANALYTICS LLC" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-07T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Building a Webapp for Species Geofencing" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Paul Moresco"},"dateModified":"2025-06-07T00:00:00-05:00","datePublished":"2025-06-07T00:00:00-05:00","description":"One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”","headline":"Building a Webapp for Species Geofencing","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2025/06/07/species-geofence.html"},"url":"http://localhost:4000/2025/06/07/species-geofence.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link id="main-stylesheet" rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="MORESCODE ANALYTICS LLC" />
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">MORESCODE ANALYTICS LLC</a>
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon"></span>
+        </label>
+
+        <div class="nav-items">
+  <a class="nav-item" href="/about/">About</a>
+  <a class="nav-item" href="/portfolio.html">Portfolio</a>
+</div>
+      </nav>
+  </div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="post"><h1 class="page-heading" style="text-align: center;">Building a Webapp for Species Geofencing</h1><div class="post-meta" style="text-align: center; color: #666; margin-bottom: 1.5em;">
+    Jun 7, 2025&nbsp;-&nbsp;<span class="post-tag" style="color: teal">#ai</a>, <span class="post-tag" style="color: teal">#html</a>, <span class="post-tag" style="color: teal">#js</a>, <span class="post-tag" style="color: teal">#cursor</a>, <span class="post-tag" style="color: teal">#jules</a>, <span class="post-tag" style="color: teal">#claude</a>, <span class="post-tag" style="color: teal">#gpt4o</a></div>
+
+  <div class="post-content">
+    <p>One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”</p>
+
+<p>So, to help validate lists of species relevant to our area, I built a <a href="https://morescode-pm.github.io/geofence-polygon/">webapp for looking up species</a>.
+<a href="https://morescode-pm.github.io/geofence-polygon/" target="_blank">
+    <img src="/assets/images/geofence/1_previewapp.png" />
+</a></p>
+
+<h2 id="a-well-known-issue">A well known issue</h2>
+<p>Species geofencing is problematic. Animals don’t seem to care where you draw lines on a map and they don’t have “guest books” where they can sign their names. We rely on human observation to tell us if a species is found in an area or not.</p>
+
+<p>Of all the public resources for these observations - the <em>Global Biodiversity Information Facility (GBIF)</em> API has a great search query representation for polygons. This search is <a href="https://www.gbif.org/occurrence/search">baked into their tools</a>, but I wanted to be able to filter the results for unique species instead of by occurence.</p>
+
+<p>The ability to draw on a map and be presented with a unique list of confirmed species was the main goal.</p>
+
+<p>Cursor, Jules, and GitHub CoPilot created the majority of the code - we started in Flask and then I asked for a refactor for a full front end site for easy hosting (wow).</p>
+
+<p>This polygon was used to then submit a query to the GBIF dataset saved on Google BigQuery.</p>
+
+<pre><code class="language-SQL">WITH unique_species AS (
+    SELECT DISTINCT
+    class,
+    `order`,
+    family,
+    genus,
+    species,
+    taxonkey
+
+    FROM
+    `bigquery-public-data.gbif.occurrences` 
+
+    WHERE 
+    ST_WITHIN(
+        ST_GEOGPOINT(decimallongitude, decimallatitude),
+        ST_GEOGFROMTEXT('POLYGON((
+            -87.69081115722656 42.005312912238956, 
+            -87.66952514648438 41.955818412264705, 
+            -87.61596679687501 41.905774595463853, 
+            -87.60910034179689 41.85779952612765, 
+            -87.62626647949219 41.815801430687642, 
+            -87.7196502685547 41.808127409160392, 
+            -87.71690368652345 41.842908943268263, 
+            -87.67982482910158 41.88533726561532, 
+            -87.72377014160158 41.946119107705776, 
+            -87.78625488281251 41.99051961904691, 
+            -87.69081115722656 42.005312912238956
+        ))')
+    )
+    AND LOWER(phylum) = "chordata" # This is the phylum that includes mammals and birds
+    
+    LIMIT 1000 
+)
+
+SELECT
+  t1.*,
+  ARRAY_AGG(DISTINCT countrycode IGNORE NULLS) AS country_codes
+
+FROM unique_species t1
+LEFT JOIN `bigquery-public-data.gbif.occurrences` 
+USING(taxonkey)
+
+GROUP BY 
+  class,
+  `order`,
+  family,
+  genus,
+  species,
+  taxonkey
+</code></pre>
+
+<p>Less than 1000 were returned in this query, but that could be a large bill if the polygon area were huge</p>
+
+<h2 id="using-geofencing-for-validated-species-lists-vs-speciesnet">Using geofencing for validated species lists vs. speciesnet</h2>
+<p>There are 3 datasets worth using to clean up missclassified speciesnet data:</p>
+<ol>
+  <li>The predictions dataset itself ( from our non-geofenced speciesnet inference on our images )</li>
+  <li>The published SpeciesNet taxonomy_release.txt file ( a list of all possible output classifications )</li>
+  <li>A geofenced dataset from the polygon created using the webapp ( filtering gbif occurrences by location )</li>
+</ol>
+
+<p>Each dataset has its own structure, but ultimately they share a listing of the class/order/family/genus/species heirarchy of taxonomic classification.<br />
+Joining and filtering to find what species should be valid for a location is possible almost entirely in python-pandas.</p>
+
+<iframe src="/assets/notebooks/html/species-mismatch.html" width="100%" height="400" style="border:1px solid #ccc; border-radius:8px;"></iframe>
+<p>The notebook for this analysis can be <a href="https://github.com/morescode-pm/urbanrivers-speciesnet-preview/blob/store-and-combine-predicts/_speciesnet-taxa/species_mismatch_analysis.ipynb">found here</a>.</p>
+
+<p>Example of matching vs non-matching lists:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>| matching (speciesnet&amp;gbif-chi)   | non_matching (speciesnet!gbif-chi)    |
+|----------------------------------|---------------------------------------|
+| blank                            | human                                 |
+| bird                             | western pond turtle                   |
+| mallard                          | anseriformes order                    |
+| american coot                    | domestic dog                          |
+| northern raccoon                 | reptile                               |
+| great blue heron                 | domestic cattle                       |
+| vehicle                          | wild turkey                           |
+| eastern cottontail               | central american agouti              |
+| brown rat                        | white-tailed deer                     |
+| domestic cat                     | nutria                                |
+| muskrat                          | crocodile                             |
+| wood duck                        | wild boar                             |
+| coyote                           | mammal                                |
+| canada goose                     | common tapeti                         |
+| american beaver                  | tome's spiny rat                      |
+| eastern gray squirrel            | ocellated turkey                      |
+| domestic horse                   | rodent                                |
+| american robin                   | collared peccary                      |
+| white-crowned sparrow           | spotted paca                          |
+| sylvilagus species              | madagascar crested ibis              |
+| song sparrow                     | canis species                         |
+| snowy egret                      | red squirrel                          |
+| california quail                 | bushy-tailed woodrat                  |
+| north american river otter       | pronghorn                             |
+| eastern chipmunk                 | eastern red forest rat               |
+| &lt;NA&gt;                             | domestic chicken                      |
+| &lt;NA&gt;                             | blood pheasant                        |
+| &lt;NA&gt;                             | white-lipped peccary                 |
+| &lt;NA&gt;                             | red acouchi                           |
+| &lt;NA&gt;                             | desert cottontail                     |
+| &lt;NA&gt;                             | plains zebra                          |
+| &lt;NA&gt;                             | rufescent tiger-heron                 |
+| &lt;NA&gt;                             | owl                                   |
+| &lt;NA&gt;                             | common wombat                         |
+| &lt;NA&gt;                             | bearded pig                           |
+| &lt;NA&gt;                             | fossa                                 |
+| &lt;NA&gt;                             | nine-banded armadillo                 |
+| &lt;NA&gt;                             | guenther's dik-dik                    |
+</code></pre></div></div>
+
+<h2 id="officially-not-in-illinois-at-all">Officially not in Illinois at all:</h2>
+
+<pre>| common_name              | state_code                                           |
+|--------------------------|------------------------------------------------------|
+| bushy-tailed woodrat     | [CO, CA, WY, OR, UT, WA, NM, MT, SD, NV, ID, ...]     |
+| central american agouti  | [TX]                                                 |
+| common wombat            | [NM, WA]                                             |
+| crocodile                | [FL]                                                 |
+| desert cottontail        | [CA, AZ, CO, NM, TX, NV, UT, WY, MT, NE, SD, KS, ...] |
+| fossa                    | [NE, TX]                                             |
+| guenther's dik-dik       | [TX]                                                 |
+| ocellated turkey         | [CA, FL, HI, OK]                                     |
+| plains zebra             | [CA, NM, TX, WA, AK, CO, MA, OH, OR, UT]             |
+| pronghorn                | [WY, CO, NM, UT, AZ, SD, MT, OR, ID, TX, NV, CO, ...] |
+| red acouchi              | [NE, NY, WA]                                         |
+| rufescent tiger-heron    | [HI]                                                 |
+| spotted paca             | [CO, CA, RI, UT, WA]                                 |
+| western pond turtle      | [CA, OR, NV]                                         |
+| white-lipped peccary     | [TX, CO, TX]                                         |</pre>
+
+<p>Note we didn’t apply any geofencing to this run of speciesnet - so it’s expected to return the highest confidence match without ‘rolling-up’ to the higher taxonomy level.</p>
+
+
+  </div>
+</div>
+      </div>
+    </main><link id="fa-stylesheet" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+
+<footer class="site-footer h-card">
+  <data class="u-url" value="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-row" style="text-align: center;"><div class="footer-author" style="margin-bottom: 8px;">
+          <span class="p-name">&copy; 2025 Paul Moresco </span>&nbsp;|&nbsp;
+            <a class="u-email" href="mailto:hello@morescode-analytics.com">hello@morescode-analytics.com</a></div><div class="social-links"><ul class="social-media-list"><li>
+    <a rel="me" href="https://github.com/morescode-pm" target="_blank" title="GitHub">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li><li>
+    <a rel="me" href="https://www.linkedin.com/in/paul-moresco" target="_blank" title="Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li><li>
+    <a rel="me" href="https://www.kaggle.com/morescope/" target="_blank" title="Kaggle">
+      <span class="grey fa-brands fa-kaggle fa-lg"></span>
+    </a>
+  </li><li>
+    <a rel="me" href="https://public.tableau.com/app/profile/paul.moresco/vizzes" target="_blank" title="Tableau Public">
+      <span class="grey fa-brands fa-salesforce fa-lg"></span>
+    </a>
+  </li>
+</ul></div>
+    </div>
+  </div>
+</footer></body>
+
+</html>
