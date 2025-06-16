@@ -67,9 +67,10 @@ The lower right corner shows a good example of why goose and beaver might be har
 The goal in this part of the project is just to learn what it would take to publish the new fine tuned model to the web for people to try.  
 As luck would have it - this part is also free; thanks to hugging face spaces + gradio. First the app is developed in a jupyter notebook, then thanks to nbdev package - that notebook can be converted into an app.py. Huggingface spaces provides a lot of help for initializing the project, too.
 
-Here's the notebook used for development of the gradio app:
+Here's the notebook used for development of the [gradio app](https://huggingface.co/spaces/morescode-pm/urbanrivers-camtraps):  
+<iframe src="/assets/notebooks/html/gradio-app.html" width="100%" height="400" style="border:1px solid #ccc; border-radius:8px;"></iframe>
 
-Lastly
+Lastly - Huggingface Spaces also provide an API endpoint for running the gradio app - this includes a javascript implementation for a very [lightweight deployment right here]({{ "/hfapi" | relative_url }}).
 
 ## Next Steps
 Our model, while achieving about 78% accuracy in the training and validation datasets, does a poor job of generalizing to new images.
