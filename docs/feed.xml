@@ -1,5 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-11T15:36:29-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">MORESCODE ANALYTICS LLC</title><subtitle>Data science, analytics, and statistical consulting.
-</subtitle><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><entry><title type="html">Building a Webapp for Species Geofencing</title><link href="http://localhost:4000/2025/06/07/species-geofence.html" rel="alternate" type="text/html" title="Building a Webapp for Species Geofencing" /><published>2025-06-07T00:00:00-05:00</published><updated>2025-06-07T00:00:00-05:00</updated><id>http://localhost:4000/2025/06/07/species-geofence</id><content type="html" xml:base="http://localhost:4000/2025/06/07/species-geofence.html"><![CDATA[<p>One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-16T16:25:51-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">MORESCODE ANALYTICS LLC</title><subtitle>Data science, analytics, and statistical consulting.
+</subtitle><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><entry><title type="html">Deploying a computer vision model.</title><link href="http://localhost:4000/2025/07/01/deploying-computer-vision.html" rel="alternate" type="text/html" title="Deploying a computer vision model." /><published>2025-07-01T00:00:00-05:00</published><updated>2025-07-01T00:00:00-05:00</updated><id>http://localhost:4000/2025/07/01/deploying-computer-vision</id><content type="html" xml:base="http://localhost:4000/2025/07/01/deploying-computer-vision.html"><![CDATA[<p>Training and publishing a computer vision model on the web.</p>
+<h4 id="try-it-here">Try It Here!</h4>
+<ul>
+  <li><a href="/hfapi">🧪 Lightweight JavaScript demo</a></li>
+  <li><a href="https://huggingface.co/spaces/morescode-pm/urbanrivers-camtraps">🚀 Full-featured Gradio app</a></li>
+</ul>
+
+<h3 id="table-of-contents">Table of Contents</h3>
+<ol>
+  <li><a href="#training-a-computer-vision-model">Training a new model based on human labeled images</a>
+    <ul>
+      <li>Downloading images with labels</li>
+      <li>Cleaning input images for model fine tuning</li>
+      <li>Testing performance and iterating</li>
+      <li>Saving and exporting the model</li>
+    </ul>
+  </li>
+  <li><a href="#publishing-the-new-model-for-testing">Publishing and Predicting</a>
+    <ul>
+      <li>HF Gradio App</li>
+      <li>Lightweight Javascript API</li>
+    </ul>
+  </li>
+  <li><a href="#next-steps">Next Steps</a>
+    <ul>
+      <li>trim top and bottom of camera trap images to avoid the brand logos</li>
+      <li>Crop (to crop or not to crop) images and try fine tuning speciesnet</li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="the-goal-why-do-this">The goal (why do this?)</h1>
+<p>Urban Rivers aims to improve urban environments for animals and humans by revitalizing waterways with floating wetland installaions.
+To understand the effect of installtations, they aim to study changes in wildlife and human use in and along the chicago river.
+Changes in biodiversity and species abundance before and after the installation of floating wetlands would be evidence of an effect.
+How to gather this data? At least in-part through observations made using motion capture cameras.</p>
+
+<p>Why AI: Because motion capture cameras have a high false positive image capture rate ( nothing in the picture ). Early estimates have this false positive rate at ~90%. This is why using computer vision to accelerate data capture is a huge help. We’re also making use of volunteer labeling to train AI - because correct identification requires some specialized knowledge.</p>
+
+<p>I previously attempted to use <em><code class="language-plaintext highlighter-rouge">SpeciesNet</code></em> to classify our images without any additional fine-tuning and had variable results. This time, I wanted to see what we could do with the images we have labeled so far - with an eye on getting more of the location specific categories correctly labeled.</p>
+
+<h2 id="training-a-computer-vision-model">Training a computer vision model</h2>
+<p>All training took place on the kaggle platform. I chose kaggle for easy access to a GPU based on the expected need for fine tuning/training.<br />
+To get the images, I fed a long list of target species to the website’s api and parsed the JSON response. ChatGPT was very helpful for making lists and troubleshooting the api.</p>
+
+<p>After getting metadata from 12118 image observations (images that had at least one observation) there were a few cleaning steps to do. At each step I rendered a snippet of the data to confrim what was happening was intentional. Cleaning involved deduplication, filling <em><code class="language-plaintext highlighter-rouge">None</code></em> values with “blank”, making sure that at least 3 people made the same species observation, filtering out multiple species (a tougher problem) and keeping single species or blank only images.</p>
+
+<p>At the end of cleaning we had 1228 images remaining (only about 10%) with only 4 categories having over 100 images, and a total of 9 categories with at least 26 pictures.<br />
+Normally, we would want at least 100-200 images per class - but at this moment that would only let us train on canadian geese, ducks, spotted sandpipers, and blank images. So in order to keep things interesting I set a threshold of at least 26.</p>
+
+<p><img src="/assets/images/fastai-deploy/1-image-counts.png" /></p>
+
+<p>From there it was a matter of downloading each species into an images/species_name folder - this structure is popular for many deep learning applications and has support in the fastai infrastructure. The parent folder indicates the target class - so loading images into fastai’s dataloaders/datablocks can take advantage of the <code class="language-plaintext highlighter-rouge">parent_label</code> function at the same time as resizing and conducting some augmentation transforms.<br />
+The <code class="language-plaintext highlighter-rouge">aug_transforms()</code> used essentially - while fine-tuning the model - provide some image alterations to expose the CNN to variations of the photos. It’s a great way to bolster your image numbers when you have small to medium datasets. Here’s a small panel that show some of the augments:</p>
+
+<p><img src="/assets/images/fastai-deploy/2-dls-batch.png" /></p>
+
+<p>I decided to try Resnet18 - because that’s in the example for the fastai documentation (#overly-honest-methods).<br />
+Training started to converge at 5 epochs, so for the sake of iteration in the future I stopped there.  Here’s the confusion matrix from only 26 images each (5 held for validation). Not bad! - clearly some issues with blanks, sandpipers and ducks but that has to be expected with the small dataset.</p>
+
+<p><img src="/assets/images/fastai-deploy/classify.png" /></p>
+
+<p>Here’s a small prediction outcome panel from images witheld from training and validation (test images):</p>
+
+<p><img src="/assets/images/fastai-deploy/res18x25_output.png" /></p>
+
+<p>The lower right corner shows a good example of why goose and beaver might be hard to differentiate. The deployment is the same in those photos (camera location) and it also looks like the reveal logo is larger for that model of camera. This is exactly the reason that SpeciesNet version B expects some of the image trimmed on the top and bottom: it’s entirely possible that the model is using that portion of the image to make predictions (leakage). Our batch augmentation does remove a few of the issues, but in the future we should add cropping to the item transforms.</p>
+
+<h5 id="full-cleaning-and-training-notebook-attached">Full Cleaning and Training Notebook attached:</h5>
+<iframe src="/assets/notebooks/html/ur-resnet18-v7.html" width="100%" height="400" style="border:1px solid #ccc; border-radius:8px;"></iframe>
+
+<h2 id="publishing-the-new-model-for-testing">Publishing the new model for testing</h2>
+<p>The goal in this part of the project is just to learn what it would take to publish the new fine tuned model to the web for people to try.<br />
+As luck would have it - this part is also free; thanks to hugging face spaces + gradio. First the app is developed in a jupyter notebook, then thanks to nbdev package - that notebook can be converted into an app.py. Huggingface spaces provides a lot of help for initializing the project, too.</p>
+
+<p>Here’s the notebook used for development of the <a href="https://huggingface.co/spaces/morescode-pm/urbanrivers-camtraps">gradio app</a>:</p>
+<iframe src="/assets/notebooks/html/gradio-app.html" width="100%" height="400" style="border:1px solid #ccc; border-radius:8px;"></iframe>
+
+<p>Lastly - Huggingface Spaces also provide an API endpoint for running the gradio app - this includes a javascript implementation for a very <a href="/hfapi">lightweight deployment right here</a>.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+<p>Our model, while achieving about 78% accuracy in the training and validation datasets, does a poor job of generalizing to new images.
+To iterate and improve here’s a short list of what to do first.</p>
+<ol>
+  <li>Trim the top and bottom of images</li>
+  <li>Striate the location/deployment (requires additional metadata)</li>
+  <li>Examine images labeled by humans and by Speciesnet/Version 1 of the fine tuned model to refine the dataset used for tuning</li>
+  <li>Try fine-tuning on the model version B of speciesnet</li>
+</ol>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="fastai" /><category term="html" /><category term="js" /><category term="gradio" /><category term="computervision" /><category term="huggingface" /><summary type="html"><![CDATA[Training and publishing a computer vision model on the web. Try It Here! 🧪 Lightweight JavaScript demo 🚀 Full-featured Gradio app]]></summary></entry><entry><title type="html">Building a Webapp for Species Geofencing</title><link href="http://localhost:4000/2025/06/07/species-geofence.html" rel="alternate" type="text/html" title="Building a Webapp for Species Geofencing" /><published>2025-06-07T00:00:00-05:00</published><updated>2025-06-07T00:00:00-05:00</updated><id>http://localhost:4000/2025/06/07/species-geofence</id><content type="html" xml:base="http://localhost:4000/2025/06/07/species-geofence.html"><![CDATA[<p>One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”</p>
 
 <p>So, to help validate lists of species relevant to our area, I built a <a href="https://morescode-pm.github.io/geofence-polygon/">webapp for looking up species</a>.
 <a href="https://morescode-pm.github.io/geofence-polygon/" target="_blank">
@@ -465,7 +553,7 @@ The goal was to create a performance reporting dashboard for a company that woul
   _Report Title
   _Scatter Title
   _Waterfall Title</li>
-</ul>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="powerbi" /><category term="dax" /><summary type="html"><![CDATA[Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants. The dashboard is interactive, so please click through to satisfy your curiosity (tip: the embedded dashboard can be resized to fit your full screen in the lower right corner).]]></summary></entry><entry><title type="html">Analyzing Camera Trap Pictures with AI</title><link href="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html" rel="alternate" type="text/html" title="Analyzing Camera Trap Pictures with AI" /><published>2025-05-22T00:00:00-05:00</published><updated>2025-05-22T00:00:00-05:00</updated><id>http://localhost:4000/2025/05/22/camera-trap-computer-vision</id><content type="html" xml:base="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html"><![CDATA[<p>Using SpeciesNet (AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).</p>
+</ul>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="powerbi" /><category term="dax" /><summary type="html"><![CDATA[Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants. The dashboard is interactive, so please click through to satisfy your curiosity (tip: the embedded dashboard can be resized to fit your full screen in the lower right corner).]]></summary></entry><entry><title type="html">Analyzing Camera Trap Pictures with AI</title><link href="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html" rel="alternate" type="text/html" title="Analyzing Camera Trap Pictures with AI" /><published>2025-05-22T00:00:00-05:00</published><updated>2025-05-22T00:00:00-05:00</updated><id>http://localhost:4000/2025/05/22/camera-trap-computer-vision</id><content type="html" xml:base="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html"><![CDATA[<p>Using SpeciesNet (Google AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).</p>
 
 <h3 id="skip-to-the-good-part">Skip to the good part:</h3>
 <p>Preview page created using Megadetector dev-tools on a subset of predictions.<br />
@@ -1079,7 +1167,7 @@ And <a href="/2025/06/07/species-geofence.html">read about here</a>.</p>
       <p>Gadot, T., Istrate, Ș., Kim, H., Morris, D., Beery, S., Birch, T., &amp; Ahumada, J. (2024). <em>To crop or not to crop: Comparing whole-image and cropped classification on a large dataset of camera trap images.</em> IET Computer Vision. Wiley Online Library. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="deeplearning" /><category term="computervision" /><category term="opencv" /><category term="ai" /><category term="conservation" /><summary type="html"><![CDATA[Using SpeciesNet (AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).]]></summary></entry><entry><title type="html">Data Science Salaries</title><link href="http://localhost:4000/2025/04/30/data-science-salaries.html" rel="alternate" type="text/html" title="Data Science Salaries" /><published>2025-04-30T00:00:00-05:00</published><updated>2025-04-30T00:00:00-05:00</updated><id>http://localhost:4000/2025/04/30/data-science-salaries</id><content type="html" xml:base="http://localhost:4000/2025/04/30/data-science-salaries.html"><![CDATA[<p>Finding myself in an unscheduled sabatical / job search I decided to upskill in Looker while reviewing Data Science Salaries in Chicago.</p>
+</div>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="deeplearning" /><category term="computervision" /><category term="opencv" /><category term="ai" /><category term="conservation" /><summary type="html"><![CDATA[Using SpeciesNet (Google AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).]]></summary></entry><entry><title type="html">Data Science Salaries</title><link href="http://localhost:4000/2025/04/30/data-science-salaries.html" rel="alternate" type="text/html" title="Data Science Salaries" /><published>2025-04-30T00:00:00-05:00</published><updated>2025-04-30T00:00:00-05:00</updated><id>http://localhost:4000/2025/04/30/data-science-salaries</id><content type="html" xml:base="http://localhost:4000/2025/04/30/data-science-salaries.html"><![CDATA[<p>Finding myself in an unscheduled sabatical / job search I decided to upskill in Looker while reviewing Data Science Salaries in Chicago.</p>
 
 <p>When asked really early, it’s easy to point to this and ask for a range within the 25pct to 75pct band of the listed salary or industry salaries.</p>
 
