@@ -57,13 +57,24 @@ Here's a small prediction outcome panel from images witheld from training and va
 
 <img src="/assets/images/fastai-deploy/res18x25_output.png">
 
-The lower right corner shows a good example of why goose and beaver might be hard to differentiate. The deployment is the same in those photos (camera location) and it also looks like the reveal logo is larger for that model of camera. This is exactly the reason that SpeciesNet version B expects some of the image trimmed on the top and bottom: it's entirely possible that the model is using that portion of the image to make predictions (leakage). Because there are more geese than beavers at that site - the probability is weighted towards canada goose.
+The lower right corner shows a good example of why goose and beaver might be hard to differentiate. The deployment is the same in those photos (camera location) and it also looks like the reveal logo is larger for that model of camera. This is exactly the reason that SpeciesNet version B expects some of the image trimmed on the top and bottom: it's entirely possible that the model is using that portion of the image to make predictions (leakage). Our batch augmentation does remove a few of the issues, but in the future we should add cropping to the item transforms.
 
 ##### Full Cleaning and Training Notebook attached:  
+<iframe src="/assets/notebooks/html/ur-resnet18-v7.html" width="100%" height="400" style="border:1px solid #ccc; border-radius:8px;"></iframe>
 
 
 ## Publishing the new model for testing
+The goal in this part of the project is just to learn what it would take to publish the new fine tuned model to the web for people to try.  
+As luck would have it - this part is also free; thanks to hugging face spaces + gradio. First the app is developed in a jupyter notebook, then thanks to nbdev package - that notebook can be converted into an app.py. Huggingface spaces provides a lot of help for initializing the project, too.
 
+Here's the notebook used for development of the gradio app:
+
+Lastly
 
 ## Next Steps
-The location also needs to be striated - or example, if we had a beaver in a location that the training set only ever saw geese, the model was likely to falsely predict a goose.
+Our model, while achieving about 78% accuracy in the training and validation datasets, does a poor job of generalizing to new images.
+To iterate and improve here's a short list of what to do first.
+1. Trim the top and bottom of images
+2. Striate the location/deployment (requires additional metadata)
+3. Examine images labeled by humans and by Speciesnet/Version 1 of the fine tuned model to refine the dataset used for tuning
+4. Try fine-tuning on the model version B of speciesnet
