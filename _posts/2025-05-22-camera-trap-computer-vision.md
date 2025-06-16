@@ -4,7 +4,7 @@ tags: [deeplearning, computervision, opencv, ai, conservation]
 title: Analyzing Camera Trap Pictures with AI
 ---
 
-<p>Using SpeciesNet (AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).</p>
+<p>Using SpeciesNet (Google AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).</p>
 
 ### Skip to the good part:  
 Preview page created using Megadetector dev-tools on a subset of predictions.  
