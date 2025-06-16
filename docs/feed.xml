@@ -1,191 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-16T09:50:24-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">MORESCODE ANALYTICS LLC</title><subtitle>Data science, analytics, and statistical consulting.
-</subtitle><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><entry><title type="html">Deploying a computer vision model.</title><link href="http://localhost:4000/2025/07/01/deploying-computer-vision.html" rel="alternate" type="text/html" title="Deploying a computer vision model." /><published>2025-07-01T00:00:00-05:00</published><updated>2025-07-01T00:00:00-05:00</updated><id>http://localhost:4000/2025/07/01/deploying-computer-vision</id><content type="html" xml:base="http://localhost:4000/2025/07/01/deploying-computer-vision.html"><![CDATA[<h4 id="try-it-yourself">Try It Yourself</h4>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-16T15:35:29-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">MORESCODE ANALYTICS LLC</title><subtitle>Data science, analytics, and statistical consulting.
+</subtitle><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><entry><title type="html">Deploying a computer vision model.</title><link href="http://localhost:4000/2025/07/01/deploying-computer-vision.html" rel="alternate" type="text/html" title="Deploying a computer vision model." /><published>2025-07-01T00:00:00-05:00</published><updated>2025-07-01T00:00:00-05:00</updated><id>http://localhost:4000/2025/07/01/deploying-computer-vision</id><content type="html" xml:base="http://localhost:4000/2025/07/01/deploying-computer-vision.html"><![CDATA[<p>Training and publishing a computer vision model on the web.</p>
+<h4 id="try-it-here">Try It Here!</h4>
 <ul>
   <li><a href="/hfapi">🧪 Lightweight JavaScript demo</a></li>
   <li><a href="https://huggingface.co/spaces/morescode-pm/urbanrivers-camtraps">🚀 Full-featured Gradio app</a></li>
 </ul>
 
+<h3 id="table-of-contents">Table of Contents</h3>
 <ol>
-  <li>Training
+  <li><a href="#training-a-computer-vision-model">Training a new model based on human labeled images</a>
     <ul>
-      <li>Downloading</li>
-      <li>Cleaning</li>
-      <li>Iterating &amp; Next Steps (MD, SN, RN)</li>
+      <li>Downloading images with labels</li>
+      <li>Cleaning input images for model fine tuning</li>
+      <li>Testing performance and iterating</li>
+      <li>Saving and exporting the model</li>
     </ul>
   </li>
-  <li>Saving</li>
-  <li>Predicting - HF Gradio</li>
-  <li>Lightweight API</li>
+  <li><a href="#publishing-the-new-model-for-testing">Publishing and Predicting</a>
+    <ul>
+      <li>HF Gradio App</li>
+      <li>Lightweight Javascript API</li>
+    </ul>
+  </li>
+  <li><a href="#next-steps">Next Steps</a>
+    <ul>
+      <li>trim top and bottom of camera trap images to avoid the brand logos</li>
+      <li>Crop (to crop or not to crop) images and try fine tuning speciesnet</li>
+    </ul>
+  </li>
 </ol>
 
-<h1 id="todo---model-improvements">TODO - Model Improvements</h1>
-<p>Trim top and bottom off photo when predicting to avoid leakage.
-Bounding Box Crop Version Like SpeciesNet
-Train from SpeciesNet</p>
+<h1 id="the-goal-why-do-this">The goal (why do this?)</h1>
+<p>Urban Rivers aims to improve urban environments for animals and humans by revitalizing waterways with floating wetland installaions.
+To understand the effect of installtations, they aim to study changes in wildlife and human use in and along the chicago river.
+Changes in biodiversity and species abundance before and after the installation of floating wetlands would be evidence of an effect.
+How to gather this data? At least in-part through observations made using motion capture cameras.</p>
 
-<h1 id="the-goal---drivetrain">The goal - Drivetrain</h1>
-<p>Spread the usage of floating wetlands to improve urban environments for animals and humans.
-Proving benefits through study of the changes in wildlife and human use in and along the chicago river.
-How? Through tracking changes in biodiversity, markers of health, and species abundance before and after the installation of floating wetlands.
-How? At least in-part through observations made using motion capture cameras (and microscopes)</p>
+<p>Why AI: Because motion capture cameras have a high false positive image capture rate ( nothing in the picture ). Early estimates have this false positive rate at ~90%. This is why using computer vision to accelerate data capture is a huge help. We’re also making use of volunteer labeling to train AI - because correct identification requires some specialized knowledge.</p>
 
-<p>Because motion capture cameras have a high false positive image capture rate ( nothing in the picture ) - using computer vision to accelerate data capture.
-Also correct identification requires some specialized knowledge -</p>
+<p>I previously attempted to use <em><code class="language-plaintext highlighter-rouge">SpeciesNet</code></em> to classify our images without any additional fine-tuning and had variable results. This time, I wanted to see what we could do with the images we have labeled so far - with an eye on getting more of the location specific categories correctly labeled.</p>
 
-<p>So we’re making use of volunteer labeling to train AI.</p>
+<h2 id="training-a-computer-vision-model">Training a computer vision model</h2>
+<p>All training took place on the kaggle platform. I chose kaggle for easy access to a GPU based on the expected need for fine tuning/training.<br />
+To get the images, I fed a long list of target species to the website’s api and parsed the JSON response. ChatGPT was very helpful for making lists and troubleshooting the api.</p>
 
-<h1 id="labeled-images-table">Labeled Images Table</h1>
+<p>After getting metadata from 12118 image observations (images that had at least one observation) there were a few cleaning steps to do. At each step I rendered a snippet of the data to confrim what was happening was intentional. Cleaning involved deduplication, filling <em><code class="language-plaintext highlighter-rouge">None</code></em> values with “blank”, making sure that at least 3 people made the same species observation, filtering out multiple species (a tougher problem) and keeping single species or blank only images.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Count</th>
-      <th>Common Name(s)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>556</td>
-      <td>Canada goose</td>
-    </tr>
-    <tr>
-      <td>166</td>
-      <td>Mallard duck</td>
-    </tr>
-    <tr>
-      <td>159</td>
-      <td>Spotted sandpiper</td>
-    </tr>
-    <tr>
-      <td>56</td>
-      <td>Red-eared slider</td>
-    </tr>
-    <tr>
-      <td>51</td>
-      <td>Spotted sandpiper, Red-eared slider</td>
-    </tr>
-    <tr>
-      <td>48</td>
-      <td>North American beaver</td>
-    </tr>
-    <tr>
-      <td>40</td>
-      <td>Mallard duck, Canada goose</td>
-    </tr>
-    <tr>
-      <td>29</td>
-      <td>American robin</td>
-    </tr>
-    <tr>
-      <td>27</td>
-      <td>Eastern cottontail rabbit</td>
-    </tr>
-    <tr>
-      <td>26</td>
-      <td>Domestic dog</td>
-    </tr>
-    <tr>
-      <td>18</td>
-      <td>Spiny softshell turtle, Red-eared slider</td>
-    </tr>
-    <tr>
-      <td>11</td>
-      <td>Muskrat</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>House sparrow</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>Raccoon</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>Great blue heron</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>Canada goose, North American beaver</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>Mallard duck, Canada goose, North American beaver</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>Canada goose, Red-eared slider</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>Mallard duck, Spiny softshell turtle, Red-eared slider</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>Spiny softshell turtle</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Black-crowned night-heron</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>European starling</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>American tree sparrow</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Spiny softshell turtle, Canada goose, Red-eared slider</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Spotted sandpiper, Spiny softshell turtle, Red-eared slider</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>North American beaver, Muskrat</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Mallard duck, Great blue heron</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Bird</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Common grackle</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>American coot</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Ring-billed gull</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>North American beaver, Raccoon</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Spotted sandpiper, Spiny softshell turtle</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Brown rat</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Mallard duck, Red-eared slider</td>
-    </tr>
-  </tbody>
-</table>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="ai" /><category term="html" /><category term="js" /><category term="gradio" /><category term="huggingface" /><summary type="html"><![CDATA[Try It Yourself 🧪 Lightweight JavaScript demo 🚀 Full-featured Gradio app]]></summary></entry><entry><title type="html">Building a Webapp for Species Geofencing</title><link href="http://localhost:4000/2025/06/07/species-geofence.html" rel="alternate" type="text/html" title="Building a Webapp for Species Geofencing" /><published>2025-06-07T00:00:00-05:00</published><updated>2025-06-07T00:00:00-05:00</updated><id>http://localhost:4000/2025/06/07/species-geofence</id><content type="html" xml:base="http://localhost:4000/2025/06/07/species-geofence.html"><![CDATA[<p>One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”</p>
+<p>At the end of cleaning we had 1228 images remaining (only about 10%) with only 4 categories having over 100 images, and a total of 9 categories with at least 26 pictures.<br />
+Normally, we would want at least 100-200 images per class - but at this moment that would only let us train on canadian geese, ducks, spotted sandpipers, and blank images. So in order to keep things interesting I set a threshold of at least 26.</p>
+
+<p><img src="/assets/images/fastai-deploy/1-image-counts.png" /></p>
+
+<p>From there it was a matter of downloading each species into an images/species_name folder - this structure is popular for many deep learning applications and has support in the fastai infrastructure. The parent folder indicates the target class - so loading images into fastai’s dataloaders/datablocks can take advantage of the <code class="language-plaintext highlighter-rouge">parent_label</code> function at the same time as resizing and conducting some augmentation transforms.<br />
+The <code class="language-plaintext highlighter-rouge">aug_transforms()</code> used essentially - while fine-tuning the model - provide some image alterations to expose the CNN to variations of the photos. It’s a great way to bolster your image numbers when you have small to medium datasets. Here’s a small panel that show some of the augments:</p>
+
+<p><img src="/assets/images/fastai-deploy/2-dls-batch.png" /></p>
+
+<p>I decided to try Resnet18 - because that’s in the example for the fastai documentation (#overly-honest-methods).<br />
+Training started to converge at 5 epochs, so for the sake of iteration in the future I stopped there.  Here’s the confusion matrix from only 26 images each (5 held for validation). Not bad! - clearly some issues with blanks, sandpipers and ducks but that has to be expected with the small dataset.</p>
+
+<p><img src="/assets/images/fastai-deploy/classify.png" /></p>
+
+<p>Here’s a small prediction outcome panel from images witheld from training and validation (test images):</p>
+
+<p><img src="/assets/images/fastai-deploy/res18x25_output.png" /></p>
+
+<p>The lower right corner shows a good example of why goose and beaver might be hard to differentiate. The deployment is the same in those photos (camera location) and it also looks like the reveal logo is larger for that model of camera. This is exactly the reason that SpeciesNet version B expects some of the image trimmed on the top and bottom: it’s entirely possible that the model is using that portion of the image to make predictions (leakage). Because there are more geese than beavers at that site - the probability is weighted towards canada goose.</p>
+
+<h5 id="full-cleaning-and-training-notebook-attached">Full Cleaning and Training Notebook attached:</h5>
+
+<h2 id="publishing-the-new-model-for-testing">Publishing the new model for testing</h2>
+
+<h2 id="next-steps">Next Steps</h2>
+<p>The location also needs to be striated - or example, if we had a beaver in a location that the training set only ever saw geese, the model was likely to falsely predict a goose.</p>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="fastai" /><category term="html" /><category term="js" /><category term="gradio" /><category term="computervision" /><category term="huggingface" /><summary type="html"><![CDATA[Training and publishing a computer vision model on the web. Try It Here! 🧪 Lightweight JavaScript demo 🚀 Full-featured Gradio app]]></summary></entry><entry><title type="html">Building a Webapp for Species Geofencing</title><link href="http://localhost:4000/2025/06/07/species-geofence.html" rel="alternate" type="text/html" title="Building a Webapp for Species Geofencing" /><published>2025-06-07T00:00:00-05:00</published><updated>2025-06-07T00:00:00-05:00</updated><id>http://localhost:4000/2025/06/07/species-geofence</id><content type="html" xml:base="http://localhost:4000/2025/06/07/species-geofence.html"><![CDATA[<p>One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”</p>
 
 <p>So, to help validate lists of species relevant to our area, I built a <a href="https://morescode-pm.github.io/geofence-polygon/">webapp for looking up species</a>.
 <a href="https://morescode-pm.github.io/geofence-polygon/" target="_blank">
