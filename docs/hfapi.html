@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>MORESCODE ANALYTICS LLC | Data science, analytics, and statistical consulting.</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="MORESCODE ANALYTICS LLC" />
+<meta name="author" content="Paul Moresco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Data science, analytics, and statistical consulting." />
+<meta property="og:description" content="Data science, analytics, and statistical consulting." />
+<link rel="canonical" href="http://localhost:4000/hfapi.html" />
+<meta property="og:url" content="http://localhost:4000/hfapi.html" />
+<meta property="og:site_name" content="MORESCODE ANALYTICS LLC" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="MORESCODE ANALYTICS LLC" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Paul Moresco"},"description":"Data science, analytics, and statistical consulting.","headline":"MORESCODE ANALYTICS LLC","url":"http://localhost:4000/hfapi.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link id="main-stylesheet" rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="MORESCODE ANALYTICS LLC" />
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">MORESCODE ANALYTICS LLC</a>
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon"></span>
+        </label>
+
+        <div class="nav-items">
+  <a class="nav-item" href="/about/">About</a>
+  <a class="nav-item" href="/portfolio.html">Portfolio</a>
+</div>
+      </nav>
+  </div>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wildlife Classifier</title>
+</head>
+<body>
+  <h2>Wildlife Image Classifier</h2>
+  <p>Upload an image or try the example:</p>
+  <button id="example">Try Example</button>
+  <input id="photo" type="file" accept="image/*">
+  <div id="results" style="margin-top: 20px;"></div>
+
+  <script type="module">
+    import { Client } from "https://esm.sh/@gradio/client";
+
+    const photoInput = document.getElementById('photo');
+    const exampleButton = document.getElementById('example');
+    const resultsDiv = document.getElementById('results');
+
+    photoInput.addEventListener('input', async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      await handleFile(file);
+    });
+
+    exampleButton.addEventListener('click', async () => {
+      resultsDiv.innerHTML = `<p>Loading example image...</p>`;
+
+      // You can replace this URL with a real wildlife image if desired
+      const response = await fetch("/assets/images/fastai-deploy/Castor_canadensis.jpg");
+      const exampleBlob = await response.blob();
+      const exampleFile = new File([exampleBlob], "example.png", { type: "image/png" });
+
+      await handleFile(exampleFile);
+    });
+
+    async function handleFile(file) {
+      const imageUrl = URL.createObjectURL(file);
+      resultsDiv.innerHTML = `
+      <div class="image-row">
+          <img src="${imageUrl}" width="300">
+          <p id="status"><em>Processing...</em></p>
+      </div>
+      <div id="prediction"></div>
+      `;
+      try {
+        const client = await Client.connect("morescode-pm/urbanrivers-camtraps");
+
+        const result = await client.predict("/top_3_preds", {
+          image_path: file,
+        });
+
+        console.log("Full result from API:", result);
+
+        const dataArray = result.data;
+        const structuredData = dataArray?.[1];
+
+        if (!structuredData?.prediction) {
+          resultsDiv.innerHTML += `<p style="color:red;">Unexpected response format</p>`;
+          return;
+        }
+
+        const { prediction, top3 } = structuredData;
+
+        resultsDiv.innerHTML = `
+          <img src="${imageUrl}" width="300">
+          <h3>Prediction</h3>
+          <p><strong>Class:</strong> ${prediction.common_name}</p>
+          <p><strong>Probability:</strong> ${prediction.probability.toFixed(4)}</p>
+          <h3>Top 3 Classes</h3>
+          <ul>${top3.map(cls => `<li>${cls}</li>`).join('')}</ul>
+        `;
+      } catch (error) {
+        console.error("Error during prediction:", error);
+        resultsDiv.innerHTML += `<p style="color:red;">Error: ${error.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
+  </div>
+
+</article>
+      </div>
+    </main><link id="fa-stylesheet" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+
+<footer class="site-footer h-card">
+  <data class="u-url" value="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-row" style="text-align: center;"><div class="footer-author" style="margin-bottom: 8px;">
+          <span class="p-name">&copy; 2025 Paul Moresco </span>&nbsp;|&nbsp;
+            <a class="u-email" href="mailto:hello@morescode-analytics.com">hello@morescode-analytics.com</a></div><div class="social-links"><ul class="social-media-list"><li>
+    <a rel="me" href="https://github.com/morescode-pm" target="_blank" title="GitHub">
+      <span class="grey fa-brands fa-github fa-lg"></span>
+    </a>
+  </li><li>
+    <a rel="me" href="https://www.linkedin.com/in/paul-moresco" target="_blank" title="Linkedin">
+      <span class="grey fa-brands fa-linkedin fa-lg"></span>
+    </a>
+  </li><li>
+    <a rel="me" href="https://www.kaggle.com/morescope/" target="_blank" title="Kaggle">
+      <span class="grey fa-brands fa-kaggle fa-lg"></span>
+    </a>
+  </li><li>
+    <a rel="me" href="https://public.tableau.com/app/profile/paul.moresco/vizzes" target="_blank" title="Tableau Public">
+      <span class="grey fa-brands fa-salesforce fa-lg"></span>
+    </a>
+  </li>
+</ul></div>
+    </div>
+  </div>
+</footer></body>
+
+</html>

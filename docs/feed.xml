@@ -1,5 +1,191 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-11T15:36:29-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">MORESCODE ANALYTICS LLC</title><subtitle>Data science, analytics, and statistical consulting.
-</subtitle><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><entry><title type="html">Building a Webapp for Species Geofencing</title><link href="http://localhost:4000/2025/06/07/species-geofence.html" rel="alternate" type="text/html" title="Building a Webapp for Species Geofencing" /><published>2025-06-07T00:00:00-05:00</published><updated>2025-06-07T00:00:00-05:00</updated><id>http://localhost:4000/2025/06/07/species-geofence</id><content type="html" xml:base="http://localhost:4000/2025/06/07/species-geofence.html"><![CDATA[<p>One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-16T09:50:24-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">MORESCODE ANALYTICS LLC</title><subtitle>Data science, analytics, and statistical consulting.
+</subtitle><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><entry><title type="html">Deploying a computer vision model.</title><link href="http://localhost:4000/2025/07/01/deploying-computer-vision.html" rel="alternate" type="text/html" title="Deploying a computer vision model." /><published>2025-07-01T00:00:00-05:00</published><updated>2025-07-01T00:00:00-05:00</updated><id>http://localhost:4000/2025/07/01/deploying-computer-vision</id><content type="html" xml:base="http://localhost:4000/2025/07/01/deploying-computer-vision.html"><![CDATA[<h4 id="try-it-yourself">Try It Yourself</h4>
+<ul>
+  <li><a href="/hfapi">🧪 Lightweight JavaScript demo</a></li>
+  <li><a href="https://huggingface.co/spaces/morescode-pm/urbanrivers-camtraps">🚀 Full-featured Gradio app</a></li>
+</ul>
+
+<ol>
+  <li>Training
+    <ul>
+      <li>Downloading</li>
+      <li>Cleaning</li>
+      <li>Iterating &amp; Next Steps (MD, SN, RN)</li>
+    </ul>
+  </li>
+  <li>Saving</li>
+  <li>Predicting - HF Gradio</li>
+  <li>Lightweight API</li>
+</ol>
+
+<h1 id="todo---model-improvements">TODO - Model Improvements</h1>
+<p>Trim top and bottom off photo when predicting to avoid leakage.
+Bounding Box Crop Version Like SpeciesNet
+Train from SpeciesNet</p>
+
+<h1 id="the-goal---drivetrain">The goal - Drivetrain</h1>
+<p>Spread the usage of floating wetlands to improve urban environments for animals and humans.
+Proving benefits through study of the changes in wildlife and human use in and along the chicago river.
+How? Through tracking changes in biodiversity, markers of health, and species abundance before and after the installation of floating wetlands.
+How? At least in-part through observations made using motion capture cameras (and microscopes)</p>
+
+<p>Because motion capture cameras have a high false positive image capture rate ( nothing in the picture ) - using computer vision to accelerate data capture.
+Also correct identification requires some specialized knowledge -</p>
+
+<p>So we’re making use of volunteer labeling to train AI.</p>
+
+<h1 id="labeled-images-table">Labeled Images Table</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Count</th>
+      <th>Common Name(s)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>556</td>
+      <td>Canada goose</td>
+    </tr>
+    <tr>
+      <td>166</td>
+      <td>Mallard duck</td>
+    </tr>
+    <tr>
+      <td>159</td>
+      <td>Spotted sandpiper</td>
+    </tr>
+    <tr>
+      <td>56</td>
+      <td>Red-eared slider</td>
+    </tr>
+    <tr>
+      <td>51</td>
+      <td>Spotted sandpiper, Red-eared slider</td>
+    </tr>
+    <tr>
+      <td>48</td>
+      <td>North American beaver</td>
+    </tr>
+    <tr>
+      <td>40</td>
+      <td>Mallard duck, Canada goose</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>American robin</td>
+    </tr>
+    <tr>
+      <td>27</td>
+      <td>Eastern cottontail rabbit</td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td>Domestic dog</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>Spiny softshell turtle, Red-eared slider</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Muskrat</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>House sparrow</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Raccoon</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Great blue heron</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Canada goose, North American beaver</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Mallard duck, Canada goose, North American beaver</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Canada goose, Red-eared slider</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Mallard duck, Spiny softshell turtle, Red-eared slider</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Spiny softshell turtle</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Black-crowned night-heron</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>European starling</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>American tree sparrow</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Spiny softshell turtle, Canada goose, Red-eared slider</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Spotted sandpiper, Spiny softshell turtle, Red-eared slider</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>North American beaver, Muskrat</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Mallard duck, Great blue heron</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Bird</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Common grackle</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>American coot</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Ring-billed gull</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>North American beaver, Raccoon</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Spotted sandpiper, Spiny softshell turtle</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Brown rat</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Mallard duck, Red-eared slider</td>
+    </tr>
+  </tbody>
+</table>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="ai" /><category term="html" /><category term="js" /><category term="gradio" /><category term="huggingface" /><summary type="html"><![CDATA[Try It Yourself 🧪 Lightweight JavaScript demo 🚀 Full-featured Gradio app]]></summary></entry><entry><title type="html">Building a Webapp for Species Geofencing</title><link href="http://localhost:4000/2025/06/07/species-geofence.html" rel="alternate" type="text/html" title="Building a Webapp for Species Geofencing" /><published>2025-06-07T00:00:00-05:00</published><updated>2025-06-07T00:00:00-05:00</updated><id>http://localhost:4000/2025/06/07/species-geofence</id><content type="html" xml:base="http://localhost:4000/2025/06/07/species-geofence.html"><![CDATA[<p>One of the issues we experienced with speciesnet classification was results where the species was not valid for our location. In speciesnet - specifying a geofence coordinate will cause missclassifications to move up to the highest level hierarchy - in most cases, this classifies an animal as “animal.”</p>
 
 <p>So, to help validate lists of species relevant to our area, I built a <a href="https://morescode-pm.github.io/geofence-polygon/">webapp for looking up species</a>.
 <a href="https://morescode-pm.github.io/geofence-polygon/" target="_blank">
@@ -465,7 +651,7 @@ The goal was to create a performance reporting dashboard for a company that woul
   _Report Title
   _Scatter Title
   _Waterfall Title</li>
-</ul>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="powerbi" /><category term="dax" /><summary type="html"><![CDATA[Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants. The dashboard is interactive, so please click through to satisfy your curiosity (tip: the embedded dashboard can be resized to fit your full screen in the lower right corner).]]></summary></entry><entry><title type="html">Analyzing Camera Trap Pictures with AI</title><link href="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html" rel="alternate" type="text/html" title="Analyzing Camera Trap Pictures with AI" /><published>2025-05-22T00:00:00-05:00</published><updated>2025-05-22T00:00:00-05:00</updated><id>http://localhost:4000/2025/05/22/camera-trap-computer-vision</id><content type="html" xml:base="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html"><![CDATA[<p>Using SpeciesNet (AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).</p>
+</ul>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="powerbi" /><category term="dax" /><summary type="html"><![CDATA[Plant Co. Performance Dashboard. An example dataset from a fake company that sells real plants. The dashboard is interactive, so please click through to satisfy your curiosity (tip: the embedded dashboard can be resized to fit your full screen in the lower right corner).]]></summary></entry><entry><title type="html">Analyzing Camera Trap Pictures with AI</title><link href="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html" rel="alternate" type="text/html" title="Analyzing Camera Trap Pictures with AI" /><published>2025-05-22T00:00:00-05:00</published><updated>2025-05-22T00:00:00-05:00</updated><id>http://localhost:4000/2025/05/22/camera-trap-computer-vision</id><content type="html" xml:base="http://localhost:4000/2025/05/22/camera-trap-computer-vision.html"><![CDATA[<p>Using SpeciesNet (Google AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).</p>
 
 <h3 id="skip-to-the-good-part">Skip to the good part:</h3>
 <p>Preview page created using Megadetector dev-tools on a subset of predictions.<br />
@@ -1079,7 +1265,7 @@ And <a href="/2025/06/07/species-geofence.html">read about here</a>.</p>
       <p>Gadot, T., Istrate, Ș., Kim, H., Morris, D., Beery, S., Birch, T., &amp; Ahumada, J. (2024). <em>To crop or not to crop: Comparing whole-image and cropped classification on a large dataset of camera trap images.</em> IET Computer Vision. Wiley Online Library. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="deeplearning" /><category term="computervision" /><category term="opencv" /><category term="ai" /><category term="conservation" /><summary type="html"><![CDATA[Using SpeciesNet (AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).]]></summary></entry><entry><title type="html">Data Science Salaries</title><link href="http://localhost:4000/2025/04/30/data-science-salaries.html" rel="alternate" type="text/html" title="Data Science Salaries" /><published>2025-04-30T00:00:00-05:00</published><updated>2025-04-30T00:00:00-05:00</updated><id>http://localhost:4000/2025/04/30/data-science-salaries</id><content type="html" xml:base="http://localhost:4000/2025/04/30/data-science-salaries.html"><![CDATA[<p>Finding myself in an unscheduled sabatical / job search I decided to upskill in Looker while reviewing Data Science Salaries in Chicago.</p>
+</div>]]></content><author><name>Paul Moresco</name><email>hello@morescode-analytics.com</email></author><category term="deeplearning" /><category term="computervision" /><category term="opencv" /><category term="ai" /><category term="conservation" /><summary type="html"><![CDATA[Using SpeciesNet (Google AI) to sort through hundreds of thousands of wildlife pictures from motion detection cameras (camera traps).]]></summary></entry><entry><title type="html">Data Science Salaries</title><link href="http://localhost:4000/2025/04/30/data-science-salaries.html" rel="alternate" type="text/html" title="Data Science Salaries" /><published>2025-04-30T00:00:00-05:00</published><updated>2025-04-30T00:00:00-05:00</updated><id>http://localhost:4000/2025/04/30/data-science-salaries</id><content type="html" xml:base="http://localhost:4000/2025/04/30/data-science-salaries.html"><![CDATA[<p>Finding myself in an unscheduled sabatical / job search I decided to upskill in Looker while reviewing Data Science Salaries in Chicago.</p>
 
 <p>When asked really early, it’s easy to point to this and ask for a range within the 25pct to 75pct band of the listed salary or industry salaries.</p>
 
