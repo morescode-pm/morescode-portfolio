@@ -1,7 +1,7 @@
 ---
 layout: post
 tags: [fastai, html, js, gradio, computervision, huggingface]
-title: Deploying a computer vision model.
+title: Deploying a computer vision model
 # published: false
 ---
 Training and publishing a computer vision model on the web.
