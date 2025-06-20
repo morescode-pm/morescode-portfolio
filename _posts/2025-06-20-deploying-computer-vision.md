@@ -1,7 +1,7 @@
 ---
 layout: post
 tags: [fastai, html, js, gradio, computervision, huggingface]
-title: Deploying a computer vision model.
+title: Deploying a computer vision model
 # published: false
 ---
 Training and publishing a computer vision model on the web.
@@ -79,3 +79,8 @@ To iterate and improve here's a short list of what to do first.
 2. Striate the location/deployment (requires additional metadata)
 3. Examine images labeled by humans and by Speciesnet/Version 1 of the fine tuned model to refine the dataset used for tuning
 4. Try fine-tuning on the model version B of speciesnet
+
+## Update
+The original dataloaders object was being passed "Resize(224)" - this was doing a center crop and removing the target species sometimes. By adding Resize(224, method='squish') and a class for cropping the top and bottom - this was resolved while also removing the cameratrap overlays.  
+
+This, plus checking timm for state of the art models and switching to convnext_tiny improved the error rate from 22% to 11%!
