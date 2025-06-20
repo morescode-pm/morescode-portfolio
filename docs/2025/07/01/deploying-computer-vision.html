@@ -134,6 +134,11 @@ To iterate and improve here’s a short list of what to do first.</p>
   <li>Try fine-tuning on the model version B of speciesnet</li>
 </ol>
 
+<h2 id="update">Update</h2>
+<p>The original dataloaders object was being passed “Resize(224)” - this was doing a center crop and removing the target species sometimes. By adding Resize(224, method=’squish’) and a class for cropping the top and bottom - this was resolved while also removing the cameratrap overlays.</p>
+
+<p>This, plus checking timm for state of the art models and switching to convnext_tiny improved the error rate from 22% to 11%!</p>
+
   </div>
 </div>
       </div>
