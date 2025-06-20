@@ -43,6 +43,9 @@ plugins:
 include:
   - CNAME
 
+exclude:
+  - zzzTODO_LIST.txt
+
 paginate: 4
 paginate_path: "/page/:num"
 future: true
